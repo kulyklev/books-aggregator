@@ -6,6 +6,8 @@ services:
       context: ./php
       dockerfile: Dockerfile
     image: books-parsers-php
+    volumes:
+      - ./../:/var/www/
 
   nginx:
     build:
@@ -14,3 +16,6 @@ services:
     image: books-parsers-nginx
     ports:
       - 80:80
+    volumes:
+      - ./../:/var/www/
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
