@@ -11,9 +11,9 @@ services:
 
   python:
     build:
-      context: ./python
+      context: ./scrapy
       dockerfile: Dockerfile
-    image: books-parsers-python
+    image: books-parsers-scrapy
     volumes:
       - ./../:/var/www/code/parser_src/
 
