@@ -9,6 +9,14 @@ services:
     volumes:
       - ./../:/var/www/code/
 
+  python:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    image: books-parsers-python
+    volumes:
+      - ./../:/var/www/code/parser_src/
+
   nginx:
     build:
       context: ./nginx
@@ -18,4 +26,4 @@ services:
       - 80:80
     volumes:
       - ./../:/var/www/code/
-#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
