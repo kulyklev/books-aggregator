@@ -14,7 +14,10 @@ RUN apk update && \
     libxslt-dev \
     openssl-dev \
     python3-dev \
+    jpeg-dev \
+    zlib-dev\
     python3
 
 RUN pip3 install --upgrade pip
+RUN pip3 install Pillow
 RUN pip3 install scrapy
