@@ -23,8 +23,8 @@ class BookclubSpider(scrapy.Spider):
     def parse(self, response):
         pagination = response.xpath("//div[@class='book-inlist-name']/a/@href").extract()
 
-        for book_hef in pagination:
-            book_page_url = response.urljoin(book_hef)
+        for book_href in pagination:
+            book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
                                  callback=self.parse_book_page)
 
@@ -33,6 +33,7 @@ class BookclubSpider(scrapy.Spider):
 
         book_item['name'] = self.parse_name(response)
         book_item['author'] = self.parse_author(response)
+        book_item['price'] = self.parse_price(response)
         book_item['language'] = self.parse_language(response)
         book_item['original_language'] = self.parse_original_language(response)
         book_item['paperback'] = self.parse_paperback(response)
@@ -52,6 +53,10 @@ class BookclubSpider(scrapy.Spider):
     def parse_author(self, response):
         author = response.xpath("//div[contains(text(),'Aвтор')]/following::div[1]/text()").extract_first()
         return author
+
+    def parse_price(self, response):
+        price = response.xpath("//div[@class='prd-enov-pr-numb']/text()").extract_first()
+        return price
 
     def parse_language(self, response):
         language = response.xpath("//div[contains(text(),'Язык')]/following::div[1]/text()").extract_first()

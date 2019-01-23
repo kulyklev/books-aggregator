@@ -4,6 +4,7 @@ import scrapy
 class BookItem(scrapy.Item):
     name = scrapy.Field()
     author = scrapy.Field()
+    price = scrapy.Field()
     language = scrapy.Field()
     original_language = scrapy.Field()
     paperback = scrapy.Field()
