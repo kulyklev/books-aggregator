@@ -63,7 +63,7 @@ class BookclubSpider(scrapy.Spider):
         return language
 
     def parse_original_language(self, response):
-        original_language = response.xpath("//div[contains(text(),'Обложка')]/following::div[1]/text()").extract_first()
+        original_language = response.xpath("//div[contains(text(),'Язык оригинала')]/following::div[1]/text()").extract_first()
         return original_language
 
     def parse_paperback(self, response):
