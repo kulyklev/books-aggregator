@@ -7,6 +7,7 @@ from items.book_item import BookItem
 class BalkaBookSpider(scrapy.Spider):
     name = "balka-book.com"
     allowed_domains = ["balka-book.com"]
+    start_url = "https://balka-book.com/kompyuternaya-literatura-596"
     custom_settings = {
         'LOG_FILE': 'logs/balka-book.txt',
     }
@@ -18,8 +19,15 @@ class BalkaBookSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
-        return [scrapy.FormRequest("https://balka-book.com/kompyuternaya-literatura-596",
-                                   callback=self.parse)]
+        return [scrapy.FormRequest(self.start_url,
+                                   callback=self.generate_requests)]
+
+    def generate_requests(self, response):
+        number_of_pages_in_category = self.get_number_of_pages_in_category(response)
+        requests = self.generate_urls(number_of_pages_in_category)
+        for request in requests:
+            yield scrapy.Request(request,
+                                 callback=self.parse)
 
     def parse(self, response):
         pagination = response.xpath("//strong[@class='name']/a/@href").extract()
@@ -28,11 +36,12 @@ class BalkaBookSpider(scrapy.Spider):
             yield scrapy.Request(book_page_url,
                                  callback=self.parse_book_page)
 
-        # next_page = response.xpath("//div[@class='pagenav2_bl']/a[not(@class) and position() = last()]/@href").extract_first()
-        # if next_page is not None:
-        #     next_page = response.urljoin( next_page)
-        #     self.logger.critical(next_page + "&gc=100")
-        #     yield scrapy.Request(next_page, callback=self.parse)
+    def get_number_of_pages_in_category(self, response):
+        number_of_pages = response.xpath("//div[@class='links']/a[position() = last()]/text()").extract_first()
+        return int(number_of_pages)
+
+    def generate_urls(self, number_of_pages_in_category):
+        return (self.start_url + "/page=" + str(i) for i in range(1, number_of_pages_in_category + 1))
 
     def parse_book_page(self, response):
         book_item = BookItem()
