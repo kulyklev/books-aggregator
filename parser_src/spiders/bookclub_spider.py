@@ -1,6 +1,7 @@
 import scrapy
 import logging
-from parser_src.items.book_item import BookItem
+from items.book_item import BookItem
+# from parser_src.items.book_item import BookItem
 
 
 class BookclubSpider(scrapy.Spider):
@@ -17,7 +18,7 @@ class BookclubSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
-        return [scrapy.FormRequest("https://www.bookclub.ua/catalog/books/pop/",
+        return [scrapy.FormRequest("https://www.bookclub.ua/catalog/books/pop/?gc=100",
                                    callback=self.parse)]
 
     def parse(self, response):
@@ -27,6 +28,12 @@ class BookclubSpider(scrapy.Spider):
             book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
                                  callback=self.parse_book_page)
+
+        next_page = response.xpath("//div[@class='pagenav2_bl']/a[not(@class) and position() = last()]/@href").extract_first()
+        if next_page is not None:
+            next_page = response.urljoin( next_page)
+            self.logger.critical(next_page + "&gc=100")
+            yield scrapy.Request(next_page, callback=self.parse)
 
     def parse_book_page(self, response):
         book_item = BookItem()

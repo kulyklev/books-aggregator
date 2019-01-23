@@ -8,5 +8,5 @@
 
 class TestPipeline(object):
     def process_item(self, item, spider):
-        spider.logger.critical(item)
+        # spider.logger.critical(item)
         return item
