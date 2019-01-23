@@ -1,6 +1,6 @@
 import scrapy
 import logging
-from items.book_item import BookItem
+from parser_src.items.book_item import BookItem
 
 
 class BookclubSpider(scrapy.Spider):
@@ -87,5 +87,7 @@ class BookclubSpider(scrapy.Spider):
         return isbn
 
     def parse_image_urls(self, response):
-        image_urls = response.xpath("//div[@class='prd-image']/img/@src").extract()
+        image_url = response.xpath("//div[@class='prd-image']/a/@href").extract_first()
+        image_url = response.urljoin(image_url)
+        image_urls = [image_url]
         return image_urls
