@@ -17,4 +17,5 @@ class BookItem(scrapy.Item):
     link = scrapy.Field()
     image_urls = scrapy.Field()
     images = scrapy.Field()
+    weight = scrapy.Field()
     pass
