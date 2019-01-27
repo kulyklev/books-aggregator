@@ -85,5 +85,5 @@ class YakaboouaParser(BaseParser):
         return image_urls
 
     def parse_weight(self, response):
-        weight = response.xpath("//table[@id='product-attribute-specs-table']/tbody/tr[td//text()[contains(., 'Вес')]]/td[2]/text()").extract_first()
+        weight = response.xpath("//table[@id='product-attribute-specs-table']/tbody/tr[td/div//text()[contains(., 'Вес')]]/td[2]/text()").extract_first()
         return weight
