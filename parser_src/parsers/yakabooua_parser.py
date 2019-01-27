@@ -1,6 +1,8 @@
 from parsers.base_parser import BaseParser
 from items.book_item import BookItem
 # from parser_src.items.book_item import BookItem
+# from parser_src.parsers.base_parser import BaseParser
+
 
 class YakaboouaParser(BaseParser):
 

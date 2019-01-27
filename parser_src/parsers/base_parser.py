@@ -4,15 +4,15 @@ from abc import ABC, abstractmethod
 class BaseParser(ABC):
 
     @abstractmethod
-    def parse_book_page(self, response):
-        pass
-
-    @abstractmethod
     def parse_name(self, response):
         pass
 
     @abstractmethod
     def parse_original_name(self, response):
+        pass
+
+    @abstractmethod
+    def parse_book_page(self, response):
         pass
 
     @abstractmethod

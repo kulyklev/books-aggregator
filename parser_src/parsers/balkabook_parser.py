@@ -1,47 +1,13 @@
-import scrapy
-import logging
+from parsers.base_parser import BaseParser
 from items.book_item import BookItem
+# from parser_src.parsers.base_parser import BaseParser
 # from parser_src.items.book_item import BookItem
 
 
-class BalkaBookSpider(scrapy.Spider):
-    name = "balka-book.com"
-    allowed_domains = ["balka-book.com"]
-    start_url = "https://balka-book.com/kompyuternaya-literatura-596"
-    custom_settings = {
-        'LOG_FILE': 'logs/balka-book.txt',
-    }
+class BalkaBookParser(BaseParser):
 
-    def __init__(self, *args, **kwargs):
-        console = logging.StreamHandler()
-        console.setLevel(logging.DEBUG)
-        logging.getLogger('').addHandler(console)
-        super().__init__(**kwargs)
-
-    def start_requests(self):
-        return [scrapy.FormRequest(self.start_url,
-                                   callback=self.generate_requests)]
-
-    def generate_requests(self, response):
-        number_of_pages_in_category = self.get_number_of_pages_in_category(response)
-        requests = self.generate_urls(number_of_pages_in_category)
-        for request in requests:
-            yield scrapy.Request(request,
-                                 callback=self.parse)
-
-    def parse(self, response):
-        pagination = response.xpath("//strong[@class='name']/a/@href").extract()
-        for book_href in pagination:
-            book_page_url = response.urljoin(book_href)
-            yield scrapy.Request(book_page_url,
-                                 callback=self.parse_book_page)
-
-    def get_number_of_pages_in_category(self, response):
-        number_of_pages = response.xpath("//div[@class='links']/a[position() = last()]/text()").extract_first()
-        return int(number_of_pages)
-
-    def generate_urls(self, number_of_pages_in_category):
-        return (self.start_url + "/page=" + str(i) for i in range(1, number_of_pages_in_category + 1))
+    def __init__(self):
+        pass
 
     def parse_book_page(self, response):
         book_item = BookItem()
@@ -60,8 +26,9 @@ class BalkaBookSpider(scrapy.Spider):
         book_item['isbn'] = self.parse_isbn(response)
         book_item['link'] = response.url
         book_item['image_urls'] = self.parse_image_urls(response)
+        book_item['weight'] = self.parse_weight(response)
 
-        yield book_item
+        return book_item
 
     def parse_name(self, response):
         name = response.xpath("//h1[@itemprop='name']/text()").extract_first()
@@ -117,3 +84,8 @@ class BalkaBookSpider(scrapy.Spider):
         image_url = response.urljoin(image_url)
         image_urls = [image_url]
         return image_urls
+
+    def parse_weight(self, response):
+        weight = response.xpath("//dl[contains(text(),'Вес, г')]/following::dd[1]/text()").extract_first()
+        return weight
+

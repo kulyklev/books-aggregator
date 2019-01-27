@@ -3,6 +3,7 @@ import unicodedata
 
 
 class FilterValuesPipeline(object):
+
     def process_item(self, item, spider):
         item['name'] = self.normalize_str_value(item['name'])
         item['original_name'] = self.normalize_str_value(item['original_name'])
@@ -39,7 +40,7 @@ class FilterValuesPipeline(object):
     def filter_currency(self, value: str, spider) -> str:
         if value == "грн":
             return "UAH"
-        elif value is "UAH":
+        elif value == "UAH":
             return value
         else:
             spider.logger.warning("Unknown currency: %s" % value)

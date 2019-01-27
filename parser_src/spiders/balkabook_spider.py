@@ -1,17 +1,17 @@
 import scrapy
 import logging
 
-from parsers.yakabooua_parser import YakaboouaParser
-# from parser_src.parsers.yakabooua_parser import YakaboouaParser
+from parsers.balkabook_parser import BalkaBookParser
+# from parser_src.parsers.balka-book_parser import BalkaBookParser
 
 
-class YakaboouaSpider(scrapy.Spider):
+class BalkaBookSpider(scrapy.Spider):
 
-    name = "yakaboo.ua"
-    allowed_domains = ["yakaboo.ua"]
-    start_url = "https://www.yakaboo.ua/knigi/komp-juternaja-literatura.html"
+    name = "balka-book.com"
+    allowed_domains = ["balka-book.com"]
+    start_url = "https://balka-book.com/kompyuternaya-literatura-596"
     custom_settings = {
-        'LOG_FILE': 'logs/yakabooua.txt',
+        'LOG_FILE': 'logs/balka-book.txt',
     }
 
     def __init__(self, *args, **kwargs):
@@ -32,11 +32,11 @@ class YakaboouaSpider(scrapy.Spider):
                                  callback=self.parse)
 
     def get_number_of_pages_in_category(self, response):
-        number_of_pages = response.xpath("//a[@class='last']/text()").extract_first()
+        number_of_pages = response.xpath("//div[@class='links']/a[position() = last()]/text()").extract_first()
         return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
-        return (self.start_url + "?p=" + str(i) for i in range(1, number_of_pages_in_category + 1))
+        return (self.start_url + "/page=" + str(i) for i in range(1, number_of_pages_in_category + 1))
 
     def parse(self, response):
         pagination = self.get_pagination_items(response)
@@ -46,9 +46,9 @@ class YakaboouaSpider(scrapy.Spider):
                                  callback=self.parse_pagination)
 
     def get_pagination_items(self, response):
-        # TODO Maybe replace this method to YakabooParser class
-        return response.xpath("//tr[@class='name']/td/a/@href").extract()
+        # TODO Maybe replace this method to BalkaBookParser class
+        return response.xpath("//strong[@class='name']/a/@href").extract()
 
     def parse_pagination(self, response):
-        yakabooua_parser = YakaboouaParser()
-        yield yakabooua_parser.parse_book_page(response)
+        balkabook_parser = BalkaBookParser()
+        yield balkabook_parser.parse_book_page(response)
