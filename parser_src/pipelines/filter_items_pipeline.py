@@ -12,5 +12,4 @@ class FilterItemsPipeline(object):
         if item['isbn'] is None:
             raise DropItem("Missing ISBN in %s" % item)
         else:
-            spider.logger.critical(item)
             return item
