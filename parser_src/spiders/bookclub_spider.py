@@ -1,12 +1,15 @@
 import scrapy
 import logging
-from items.book_item import BookItem
-# from parser_src.items.book_item import BookItem
+
+from parsers.bookclub_parser import BookclubParser
+# from parser_src.parsers.bookclub_parser import BookclubParser
 
 
 class BookclubSpider(scrapy.Spider):
+
     name = "bookclub.ua"
     allowed_domains = ["bookclub.ua"]
+    start_url = "https://www.bookclub.ua/catalog/books/learning/?gc=100"
     custom_settings = {
         'LOG_FILE': 'logs/bookclub.txt',
     }
@@ -18,83 +21,37 @@ class BookclubSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
-        return [scrapy.FormRequest("https://www.bookclub.ua/catalog/books/pop/?gc=100",
+        return [scrapy.FormRequest("https://www.bookclub.ua/catalog/books/learning/?gc=100",
                                    callback=self.parse)]
 
+    def generate_requests(self, response):
+        number_of_pages_in_category = self.get_number_of_pages_in_category(response)
+        requests = self.generate_urls(number_of_pages_in_category)
+        for request in requests:
+            yield scrapy.Request(request,
+                                 callback=self.parse)
+
+    def get_number_of_pages_in_category(self, response):
+        number_of_pages = response.xpath("//a[@class='navClick'][position() = last()]/div")
+        return int(number_of_pages)
+
+    def generate_urls(self, number_of_pages_in_category):
+        for i in range(1, number_of_pages_in_category):
+            last_book_index = 100 * i
+            yield self.start_url + "&i=" + str(last_book_index) + "&listmode=2"
+
     def parse(self, response):
-        pagination = response.xpath("//div[@class='book-inlist-name']/a/@href").extract()
+        pagination = self.get_pagination_items(response)
 
         for book_href in pagination:
             book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
-                                 callback=self.parse_book_page)
+                                 callback=self.parse_pagination)
 
-        next_page = response.xpath("//div[@class='pagenav2_bl']/a[not(@class) and position() = last()]/@href").extract_first()
-        if next_page is not None:
-            next_page = response.urljoin( next_page)
-            self.logger.critical(next_page + "&gc=100")
-            yield scrapy.Request(next_page, callback=self.parse)
+    def get_pagination_items(self, response):
+        # TODO Maybe replace this method to YakabooParser class
+        return response.xpath("//div[@class='book-inlist-name']/a/@href").extract()
 
-    def parse_book_page(self, response):
-        book_item = BookItem()
-
-        book_item['name'] = self.parse_name(response)
-        book_item['author'] = self.parse_author(response)
-        book_item['price'] = self.parse_price(response)
-        book_item['language'] = self.parse_language(response)
-        book_item['original_language'] = self.parse_original_language(response)
-        book_item['paperback'] = self.parse_paperback(response)
-        book_item['product_dimensions'] = self.parse_product_dimensions(response)
-        book_item['publisher'] = self.parse_publisher(response)
-        book_item['publishing_year'] = self.parse_publishing_year(response)
-        book_item['isbn'] = self.parse_isbn(response)
-        book_item['link'] = response.url
-        book_item['image_urls'] = self.parse_image_urls(response)
-
-        yield book_item
-
-    def parse_name(self, response):
-        name = response.xpath("//div[contains(text(),'Название товара')]/following::div[1]/text()").extract_first()
-        return name
-
-    def parse_author(self, response):
-        author = response.xpath("//div[contains(text(),'Aвтор')]/following::div[1]/text()").extract_first()
-        return author
-
-    def parse_price(self, response):
-        price = response.xpath("//div[@class='prd-enov-pr-numb']/text()").extract_first()
-        return price
-
-    def parse_language(self, response):
-        language = response.xpath("//div[contains(text(),'Язык')]/following::div[1]/text()").extract_first()
-        return language
-
-    def parse_original_language(self, response):
-        original_language = response.xpath("//div[contains(text(),'Язык оригинала')]/following::div[1]/text()").extract_first()
-        return original_language
-
-    def parse_paperback(self, response):
-        paperback = response.xpath("//div[contains(text(),'Страниц')]/following::div[1]/text()").extract_first()
-        return paperback
-
-    def parse_product_dimensions(self, response):
-        product_dimensions = response.xpath("//div[contains(text(),'Формат')]/following::div[1]/text()").extract_first()
-        return product_dimensions
-
-    def parse_publisher(self, response):
-        publisher = response.xpath("//div[contains(text(),'Издательство')]/following::div[1]/a/text()").extract_first()
-        return publisher
-
-    def parse_publishing_year(self, response):
-        publishing_year = response.xpath("//div[contains(text(),'Год издания')]/following::div[1]/a/text()").extract_first()
-        return publishing_year
-
-    def parse_isbn(self, response):
-        isbn = response.xpath("//div[contains(text(),'ISBN')]/following::div[1]/text()").extract_first()
-        return isbn
-
-    def parse_image_urls(self, response):
-        image_url = response.xpath("//div[@class='prd-image']/a/@href").extract_first()
-        image_url = response.urljoin(image_url)
-        image_urls = [image_url]
-        return image_urls
+    def parse_pagination(self, response):
+        bookclub_parser = BookclubParser()
+        yield bookclub_parser.parse_book_page(response)

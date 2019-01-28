@@ -40,6 +40,7 @@ class YakaboouaSpider(scrapy.Spider):
 
     def parse(self, response):
         pagination = self.get_pagination_items(response)
+
         for book_href in pagination:
             book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
