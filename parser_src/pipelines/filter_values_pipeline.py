@@ -25,19 +25,22 @@ class FilterValuesPipeline(object):
     def normalize_str_value(self, value: str) -> str:
         if value is not None:
             value = unicodedata.normalize("NFKD", value)
-            return re.sub(r"\s+", ' ', value)
+            value = re.sub(r"\s+", ' ', value)
+            return value.strip()
         else:
             pass
 
     def filter_price(self, value: str) -> float:
         price = self.clear_string(value)
-        return float(price)
+        price = re.findall("\d+\.\d+", price)
+        return float(price[0])
 
     def clear_string(self, value: str) -> str:
         value = self.normalize_str_value(value)
         return value.replace(" ", "")
 
     def filter_currency(self, value: str, spider) -> str:
+        value = self.clear_string(value)
         if value == "грн":
             return "UAH"
         elif value == "UAH":

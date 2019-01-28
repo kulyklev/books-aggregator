@@ -71,7 +71,7 @@ class BookclubParser(BaseParser):
         return publisher
 
     def parse_publishing_year(self, response):
-        publishing_year = response.xpath("//div[contains(text(),'Год издания')]/following::div[1]/a/text()").extract_first()
+        publishing_year = response.xpath("//div[contains(text(),'Год издания')]/following::div[1]/text()").extract_first()
         return publishing_year
 
     def parse_isbn(self, response):
