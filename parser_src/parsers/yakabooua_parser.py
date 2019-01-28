@@ -39,7 +39,7 @@ class YakaboouaParser(BaseParser):
         return None
 
     def parse_author(self, response):
-        author = response.xpath("//table[@id='product-attribute-specs-table']/tbody/tr[td//text()[contains(., 'Автор')]]/td[2]/a/text()").extract_first()
+        author = response.xpath("//table[@id='product-attribute-specs-table']/tbody/tr[td//text()[contains(., 'Автор')]]/td[2]/a/text()").extract()
         return author
 
     def parse_price(self, response):
