@@ -9,7 +9,8 @@ class BalkaBookSpider(scrapy.Spider):
 
     name = "balka-book.com"
     allowed_domains = ["balka-book.com"]
-    start_url = "https://balka-book.com/kompyuternaya-literatura-596"
+    # start_url = "https://balka-book.com/kompyuternaya-literatura-596"
+    start_url = "https://balka-book.com/pischevaya_promyishlennost-536"
     custom_settings = {
         'LOG_FILE': 'logs/balka-book.txt',
     }

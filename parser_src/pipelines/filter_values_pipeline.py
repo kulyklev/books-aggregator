@@ -32,7 +32,7 @@ class FilterValuesPipeline(object):
 
     def filter_price(self, value: str) -> float:
         price = self.clear_string(value)
-        price = re.findall("\d+\.\d+", price)
+        price = re.findall("\d+\.\d+|\d+", price)
         return float(price[0])
 
     def clear_string(self, value: str) -> str:
