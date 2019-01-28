@@ -39,8 +39,7 @@ class BalkaBookParser(BaseParser):
         return original_name
 
     def parse_author(self, response):
-        # TODO When book has two or more authors, DOM changes like on this page https://balka-book.com/python-70/postroenie_sistem_mashinnogo_obucheniya_na_yazyike_python-33080
-        author = response.xpath("//dl[contains(text(),'Автор')]/following::dd[1]/a/text()").extract_first()
+        author = response.xpath("//dl[contains(text(),'Автор')]/following::dd[1]//a/text()").extract()
         return author
 
     def parse_price(self, response):

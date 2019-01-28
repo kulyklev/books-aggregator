@@ -7,7 +7,7 @@ class FilterValuesPipeline(object):
     def process_item(self, item, spider):
         item['name'] = self.normalize_str_value(item['name'])
         item['original_name'] = self.normalize_str_value(item['original_name'])
-        item['author'] = self.normalize_str_value(item['author'])
+        item['author'] = self.normalize_arr_of_strs(item['author'])
         item['price'] = self.filter_price(item['price'])
         item['currency'] = self.filter_currency(item['currency'], spider)
         item['language'] = self.normalize_str_value(item['language'])
@@ -29,6 +29,12 @@ class FilterValuesPipeline(object):
             return value.strip()
         else:
             pass
+
+    def normalize_arr_of_strs(self, arr: list) -> list:
+        res = []
+        for item in arr:
+            res.append(self.normalize_str_value(item))
+        return res
 
     def filter_price(self, value: str) -> float:
         price = self.clear_string(value)
