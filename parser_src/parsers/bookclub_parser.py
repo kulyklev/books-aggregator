@@ -39,7 +39,7 @@ class BookclubParser(BaseParser):
         return original_name
 
     def parse_author(self, response):
-        author = response.xpath("//div[contains(text(),'Aвтор')]/following::div[1]/text()").extract_first()
+        author = response.xpath("//div[contains(text(),'Aвтор')]/following::div[1]/text()").extract()
         return author
 
     def parse_price(self, response):

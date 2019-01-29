@@ -9,7 +9,7 @@ class BookclubSpider(scrapy.Spider):
 
     name = "bookclub.ua"
     allowed_domains = ["bookclub.ua"]
-    start_url = "https://www.bookclub.ua/catalog/books/learning/?gc=100"
+    start_url = "https://www.bookclub.ua/catalog/books/pop/?gc=100"
     custom_settings = {
         'LOG_FILE': 'logs/bookclub.txt',
     }
@@ -21,8 +21,8 @@ class BookclubSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
-        return [scrapy.FormRequest("https://www.bookclub.ua/catalog/books/learning/?gc=100",
-                                   callback=self.parse)]
+        return [scrapy.FormRequest(self.start_url,
+                                   callback=self.generate_requests)]
 
     def generate_requests(self, response):
         number_of_pages_in_category = self.get_number_of_pages_in_category(response)
@@ -32,11 +32,11 @@ class BookclubSpider(scrapy.Spider):
                                  callback=self.parse)
 
     def get_number_of_pages_in_category(self, response):
-        number_of_pages = response.xpath("//a[@class='navClick'][position() = last()]/div")
+        number_of_pages = response.xpath("//a[@class='navClick'][position() = last()]/div/text()").extract_first()
         return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
-        for i in range(1, number_of_pages_in_category):
+        for i in range(number_of_pages_in_category):
             last_book_index = 100 * i
             yield self.start_url + "&i=" + str(last_book_index) + "&listmode=2"
 
@@ -49,7 +49,7 @@ class BookclubSpider(scrapy.Spider):
                                  callback=self.parse_pagination)
 
     def get_pagination_items(self, response):
-        # TODO Maybe replace this method to YakabooParser class
+        # TODO Maybe replace this method to BookclubParser class
         return response.xpath("//div[@class='book-inlist-name']/a/@href").extract()
 
     def parse_pagination(self, response):
