@@ -67,7 +67,7 @@ class YakaboouaParser(BaseParser):
         return product_dimensions
 
     def parse_publisher(self, response):
-        # TODO Could be two or more publishers
+        # TODO Could be two or more publishers like https://www.yakaboo.ua/zhitija-svjatyh-svjatitelja-dmitrija-donskogo-komplekt-iz-3-knig.html
         publisher = response.xpath("//table[@id='product-attribute-specs-table']/tbody/tr[td//text()[contains(., 'Издательство')]]/td[2]/a/text()").extract_first()
         return publisher
 
