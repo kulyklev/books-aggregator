@@ -27,9 +27,15 @@ class YakaboouaSpider(scrapy.Spider):
     def generate_requests(self, response):
         number_of_pages_in_category = self.get_number_of_pages_in_category(response)
         requests = self.generate_urls(number_of_pages_in_category)
-        for request in requests:
-            yield scrapy.Request(request,
-                                 callback=self.parse)
+        for i, request in enumerate(requests):
+            # If statement needed to perform request with 'start_url' second time
+            if i == 0:
+                yield scrapy.Request(request,
+                                     callback=self.parse,
+                                     dont_filter=True)
+            else:
+                yield scrapy.Request(request,
+                                     callback=self.parse)
 
     def get_number_of_pages_in_category(self, response):
         number_of_pages = response.xpath("//a[@class='last']/text()").extract_first()
