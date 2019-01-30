@@ -91,7 +91,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'ERROR'
 
 # TODO Change path to laravel storage
 IMAGES_STORE = './images'
