@@ -16,7 +16,7 @@ class FilterValuesPipeline(object):
         item['product_dimensions'] = self.normalize_str_value(item['product_dimensions'])
         item['publisher'] = self.normalize_str_value(item['publisher'])
         item['publishing_year'] = self.filter_int_value(item['publishing_year'])
-        item['isbn'] = self.normalize_str_value(item['isbn'])
+        item['isbn'] = self.normalize_isbn(item['isbn'])
         item['weight'] = self.filter_int_value(item['weight'])
 
         spider.logger.critical(item)
@@ -61,3 +61,10 @@ class FilterValuesPipeline(object):
             return int(re.search(r'\d+', value).group())
         else:
             pass
+
+    # This function normalizes isbn value and if ISBN contains two or more values, then returns only first one.
+    # Because, I don`t have any idea how to store books with several ISBNs
+    def normalize_isbn(self, value: str) -> str:
+        isbn = self.normalize_str_value(value)
+        isbn = re.split("[,#]", isbn)
+        return isbn[0]
