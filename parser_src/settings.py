@@ -59,14 +59,14 @@ ROBOTSTXT_OBEY = False
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
+#    'scrape_worker.extensions.telnet.TelnetConsole': None,
 #}
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'pipelines.filter_items_pipeline.FilterItemsPipeline': 1,
-    'scrapy.pipelines.images.ImagesPipeline': 2,
+    'scrape_worker.pipelines.images.ImagesPipeline': 2,
     'pipelines.filter_values_pipeline.FilterValuesPipeline': 3,
 }
 
@@ -89,7 +89,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+#HTTPCACHE_STORAGE = 'scrape_worker.extensions.httpcache.FilesystemCacheStorage'
 
 LOG_LEVEL = 'ERROR'
 

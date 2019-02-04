@@ -10,7 +10,7 @@ from scrapy import signals
 
 class TestSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the spider middleware does not modify the
+    # scrape_worker acts as if the spider middleware does not modify the
     # passed objects.
 
     @classmethod
@@ -58,7 +58,7 @@ class TestSpiderMiddleware(object):
 
 class TestDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the downloader middleware does not modify the
+    # scrape_worker acts as if the downloader middleware does not modify the
     # passed objects.
 
     @classmethod

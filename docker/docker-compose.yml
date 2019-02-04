@@ -11,9 +11,9 @@ services:
 
   scrapy:
     build:
-      context: ./scrapy
+      context: ./scrape_worker
       dockerfile: Dockerfile
-    image: books-parsers-scrapy
+    image: scrape-worker
     volumes:
       - ./../:/var/www/code
 
