@@ -28,3 +28,6 @@ RUN pip3 install --upgrade pip && \
 # Installing php
 RUN apk add php7 \
     php7-opcache
+
+# TODO add php artisan queue:work
+#CMD
