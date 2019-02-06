@@ -8,6 +8,9 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 BOT_NAME = 'test'
 
@@ -58,9 +61,9 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
+EXTENSIONS = {
+   'scrapy.extensions.statsmailer.StatsMailer': 1,
+}
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
@@ -92,6 +95,16 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 LOG_LEVEL = 'ERROR'
+
+MAIL_HOST = os.getenv("MAIL_HOST")
+MAIL_FROM = os.getenv("MAIL_FROM")
+MAIL_USER = os.getenv("MAIL_USERNAME")
+MAIL_PASS = os.getenv("MAIL_PASSWORD")
+MAIL_PORT = os.getenv("MAIL_PORT")
+MAIL_TLS = os.getenv("MAIL_TLS")
+MAIL_SSL = os.getenv("MAIL_SSL")
+STATSMAILER_RCPTS = os.getenv("MAIL_RECEIVERS").split()
+
 
 # TODO Change path to laravel storage
 IMAGES_STORE = './images'
