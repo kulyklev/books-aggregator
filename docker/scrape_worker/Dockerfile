@@ -28,9 +28,12 @@ RUN pip3 install --upgrade pip && \
 # Installing php
 RUN apk add php7 \
     php7-opcache \
-    php7-mbstring
+    php7-mbstring \
+    php7-pdo_mysql \
+    php7-session \
+    php7-json
 
 WORKDIR /var/www/code/src
 
 # TODO add php artisan queue:work
-CMD ["php", "artisan", "queue:work"]
+CMD ["php", "artisan", "queue:work", "database"]

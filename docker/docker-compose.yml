@@ -6,6 +6,8 @@ services:
       context: ./php
       dockerfile: Dockerfile
     image: books-parsers-php
+    depends_on:
+      - mysql
     volumes:
       - ./../:/var/www/code
 
@@ -22,6 +24,8 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: books-parsers-nginx
+    depends_on:
+      - php
     ports:
       - 80:80
     volumes:
