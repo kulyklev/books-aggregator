@@ -16,6 +16,8 @@ services:
       context: ./scrape_worker
       dockerfile: Dockerfile
     image: scrape-worker
+    depends_on:
+      - rabbitmq
     volumes:
       - ./../:/var/www/code
 
@@ -43,3 +45,13 @@ services:
     ports:
       - 3306:3306
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    image: books-parsers-rabbitmq
+    environment:
+      RABBITMQ_HIPE_COMPILE: 1
+    ports:
+      - 8080:15672
