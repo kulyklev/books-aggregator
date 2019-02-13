@@ -23,7 +23,8 @@ RUN apk update && \
 # Installing Scrapy
 RUN pip3 install --upgrade pip && \
     pip3 install Pillow && \
-    pip3 install scrapy
+    pip3 install scrapy && \
+    pip3 install pika
 
 # Installing python-dotenv package to work with .env file
 RUN pip3 install -U python-dotenv
