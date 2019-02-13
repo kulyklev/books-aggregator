@@ -19,7 +19,6 @@ class FilterValuesPipeline(object):
         item['isbn'] = self.normalize_isbn(item['isbn'])
         item['weight'] = self.filter_int_value(item['weight'])
 
-        spider.logger.critical(item)
         return item
 
     def normalize_str_value(self, value: str) -> str:
