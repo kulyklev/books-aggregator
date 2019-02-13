@@ -24,7 +24,7 @@ class SaveItemsPipeline(object):
         }
 
         spider.logger.critical(item)
-        self.send_item_to_queue(item)
+        self.send_item_to_queue(book)
 
         return item
 
