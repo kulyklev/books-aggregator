@@ -15,8 +15,10 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('offer_id');
             $table->decimal('price', 7, 2);
             $table->enum('currency', ['UAH', 'EUR']);
+            $table->foreign('offer_id')->references('id')->on('offers');
             $table->timestamps();
         });
     }

@@ -15,10 +15,12 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('price_id');
-            $table->unsignedInteger('seller_id');
+            $table->unsignedInteger('book_id');
+            $table->unsignedInteger('dealer_id');
             $table->string('link');
             $table->string('image');
+            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('dealer_id')->references('id')->on('dealers');
             $table->timestamps();
         });
     }
