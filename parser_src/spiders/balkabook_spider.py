@@ -9,7 +9,6 @@ class BalkaBookSpider(scrapy.Spider):
 
     name = "balka-book.com"
     allowed_domains = ["balka-book.com"]
-    # start_url = "https://balka-book.com/kompyuternaya-literatura-596"
     start_url = "https://balka-book.com/pischevaya_promyishlennost-536"
     custom_settings = {
         'LOG_FILE': 'logs/balka-book.txt',
@@ -38,9 +37,12 @@ class BalkaBookSpider(scrapy.Spider):
                 yield scrapy.Request(request,
                                      callback=self.parse)
 
-    def get_number_of_pages_in_category(self, response):
+    def get_number_of_pages_in_category(self, response) -> int:
         number_of_pages = response.xpath("//div[@class='links']/a[position() = last()]/text()").extract_first()
-        return int(number_of_pages)
+        if number_of_pages is None:
+            return 1
+        else:
+            return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
         return (self.start_url + "/page=" + str(i) for i in range(1, number_of_pages_in_category + 1))
