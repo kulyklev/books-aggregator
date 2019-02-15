@@ -9,7 +9,9 @@ class BookclubSpider(scrapy.Spider):
 
     name = "bookclub.ua"
     allowed_domains = ["bookclub.ua"]
-    start_url = "https://www.bookclub.ua/catalog/books/pop/?gc=100"
+    # start_url = "https://www.bookclub.ua/catalog/books/pop/?gc=100"
+    start_url = "https://www.bookclub.ua/catalog/books/advices/?gc=100"
+
     custom_settings = {
         'LOG_FILE': 'logs/bookclub.txt',
     }
@@ -27,13 +29,22 @@ class BookclubSpider(scrapy.Spider):
     def generate_requests(self, response):
         number_of_pages_in_category = self.get_number_of_pages_in_category(response)
         requests = self.generate_urls(number_of_pages_in_category)
-        for request in requests:
-            yield scrapy.Request(request,
-                                 callback=self.parse)
+        for i, request in enumerate(requests):
+            # If statement needed to perform request with 'start_url' second time
+            if i == 0:
+                yield scrapy.Request(request,
+                                     callback=self.parse,
+                                     dont_filter=True)
+            else:
+                yield scrapy.Request(request,
+                                     callback=self.parse)
 
-    def get_number_of_pages_in_category(self, response):
+    def get_number_of_pages_in_category(self, response) -> int:
         number_of_pages = response.xpath("//a[@class='navClick'][position() = last()]/div/text()").extract_first()
-        return int(number_of_pages)
+        if number_of_pages is None:
+            return 1
+        else:
+            return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
         for i in range(number_of_pages_in_category):
@@ -42,7 +53,6 @@ class BookclubSpider(scrapy.Spider):
 
     def parse(self, response):
         pagination = self.get_pagination_items(response)
-
         for book_href in pagination:
             book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
