@@ -37,16 +37,18 @@ class YakaboouaSpider(scrapy.Spider):
                 yield scrapy.Request(request,
                                      callback=self.parse)
 
-    def get_number_of_pages_in_category(self, response):
+    def get_number_of_pages_in_category(self, response) -> int:
         number_of_pages = response.xpath("//a[@class='last']/text()").extract_first()
-        return int(number_of_pages)
+        if number_of_pages is None:
+            return 1
+        else:
+            return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
         return (self.start_url + "?p=" + str(i) for i in range(1, number_of_pages_in_category + 1))
 
     def parse(self, response):
         pagination = self.get_pagination_items(response)
-
         for book_href in pagination:
             book_page_url = response.urljoin(book_href)
             yield scrapy.Request(book_page_url,
