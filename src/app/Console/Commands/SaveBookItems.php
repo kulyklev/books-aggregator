@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\BookItemSaver;
 use Illuminate\Console\Command;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -21,14 +22,18 @@ class SaveBookItems extends Command
      */
     protected $description = 'Command description';
 
+    protected $bookItemSaver;
+
     /**
      * Create a new command instance.
      *
+     * @param BookItemSaver $bookItemSaver
      * @return void
      */
-    public function __construct()
+    public function __construct(BookItemSaver $bookItemSaver)
     {
         parent::__construct();
+        $this->bookItemSaver = $bookItemSaver;
     }
 
     /**
@@ -48,7 +53,7 @@ class SaveBookItems extends Command
 
         $callback = function ($msg) {
             echo ' [x] Received ', $msg->body, "\n";
-            echo var_dump($msg->body);
+            $this->bookItemSaver->saveBook($msg->body);
             echo " [x] Done\n";
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         };
