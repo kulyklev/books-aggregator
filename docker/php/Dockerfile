@@ -1,6 +1,6 @@
-FROM php:7.3.1-fpm-alpine
+FROM php:7.3.2-fpm
 
-#RUN apk add php7-pdo_mysql
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install bcmath sockets
 
 WORKDIR /var/www/code/

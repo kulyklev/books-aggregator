@@ -55,7 +55,7 @@ services:
     image: books-parsers-rabbitmq
     environment:
       RABBITMQ_HIPE_COMPILE: 1
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: example
+#      RABBITMQ_DEFAULT_USER: user
+#      RABBITMQ_DEFAULT_PASS: example
     ports:
       - 8080:15672
