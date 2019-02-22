@@ -19,7 +19,7 @@ class SaveItemsPipeline(object):
             'publishing_year': item['publishing_year'],
             'isbn': item['isbn'],
             'link': item['link'],
-            'image_urls': item['image_urls'],
+            'image': item['images'][0],
             'weight': item['weight']
         }
 
