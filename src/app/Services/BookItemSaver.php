@@ -45,15 +45,16 @@ class BookItemSaver
         $book->paperback = $bookItem->paperback;
         $book->product_dimensions = $bookItem->product_dimensions;
         $book->author = implode(", ", $bookItem->author);
-        $book->publisher_id = $newPublisher->id;
+        $book->publisher_id = 1;
         $book->category_id = 1;
+//        $book = $book->updateOrCreate(['isbn' => $bookItem->isbn]);
         $book->save();
 
         $newOffer = new Offer();
         $newOffer->book_id = $book->id;
         $newOffer->dealer_id = 1;
         $newOffer->link = $bookItem->link;
-        $newOffer->image = 'test';
+        $newOffer->image = $bookItem->image[0]->path;
         $newOffer->save();
 
         $newPrice = new Price();
