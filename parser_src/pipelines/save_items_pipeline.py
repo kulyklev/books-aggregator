@@ -19,11 +19,11 @@ class SaveItemsPipeline(object):
             'publishing_year': item['publishing_year'],
             'isbn': item['isbn'],
             'link': item['link'],
-            'image': item['images'][0],
+            'image': item['images'],
             'weight': item['weight']
         }
 
-        spider.logger.critical(item)
+        spider.logger.critical(book)
         self.send_item_to_queue(book)
 
         return item
