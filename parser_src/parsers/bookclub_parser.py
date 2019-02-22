@@ -79,7 +79,7 @@ class BookclubParser(BaseParser):
         return isbn
 
     def parse_image_urls(self, response):
-        image_url = response.xpath("//div[@class='prd-image']/a/@href").extract_first()
+        image_url = response.xpath("//div[@class='prd-image']/a/img/@src").extract_first()
         image_url = response.urljoin(image_url)
         image_urls = [image_url]
         return image_urls
