@@ -23,7 +23,6 @@ class SaveItemsPipeline(object):
             'weight': item['weight']
         }
 
-        spider.logger.critical(book)
         self.send_item_to_queue(book)
 
         return item
