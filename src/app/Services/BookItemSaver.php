@@ -28,7 +28,8 @@ class BookItemSaver
 
         $newPublisher = new Publisher();
         $newPublisher->name = $bookItem->publisher;
-        $newPublisher->save();
+        $newPublisher->firstOrCreate(['name' => $bookItem->publisher]);
+        $publisher = Publisher::where('name', $bookItem->publisher)->first();
 
         // TODO Add category saving
         // TODO Add passing dealer id to parser and then retrieving it here
@@ -45,7 +46,7 @@ class BookItemSaver
         $book->paperback = $bookItem->paperback;
         $book->product_dimensions = $bookItem->product_dimensions;
         $book->author = implode(", ", $bookItem->author);
-        $book->publisher_id = 1;
+        $book->publisher_id = $publisher->id;
         $book->category_id = 1;
 //        $book = $book->updateOrCreate(['isbn' => $bookItem->isbn]);
         $book->save();
@@ -62,6 +63,5 @@ class BookItemSaver
         $newPrice->price = $bookItem->price;
         $newPrice->currency = $bookItem->currency;
         $newPrice->save();
-
     }
 }
