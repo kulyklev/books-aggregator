@@ -18,14 +18,14 @@ class CreateBooksTable extends Migration
             $table->unsignedInteger('publisher_id');
             $table->unsignedInteger('category_id');
             $table->string('name', 256);
-            $table->string('original_name', 64)->nullable();
+            $table->string('original_name', 256)->nullable();
             $table->string('isbn', 24)->unique();
             $table->year('publishing_year')->nullable();
             $table->smallInteger('weight')->nullable();
             $table->string('language', 16)->nullable();
             $table->string('original_language', 256)->nullable();
-            $table->smallInteger('paperback');
-            $table->string('product_dimensions', 16);
+            $table->smallInteger('paperback')->nullable();
+            $table->string('product_dimensions', 16)->nullable();
             $table->string('author');
             $table->foreign('publisher_id')->references('id')->on('publishers');
             $table->foreign('category_id')->references('id')->on('categories');
