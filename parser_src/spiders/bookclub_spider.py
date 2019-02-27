@@ -11,7 +11,6 @@ class BookclubSpider(scrapy.Spider):
     allowed_domains = ["bookclub.ua"]
     book_url = None
     category_id = None
-
     custom_settings = {
         'LOG_FILE': 'logs/bookclub.txt',
     }
