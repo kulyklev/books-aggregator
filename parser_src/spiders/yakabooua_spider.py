@@ -9,20 +9,33 @@ class YakaboouaSpider(scrapy.Spider):
 
     name = "yakaboo.ua"
     allowed_domains = ["yakaboo.ua"]
-    start_url = "https://www.yakaboo.ua/knigi/komp-juternaja-literatura.html"
+    book_url = None
+    category_id = None
     custom_settings = {
         'LOG_FILE': 'logs/yakabooua.txt',
     }
 
-    def __init__(self, *args, **kwargs):
+    # If start_url and book_url are given then book_url will be processed as more prior task
+    def __init__(self, category_id=None, start_url=None, book_url=None, *args, **kwargs):
         console = logging.StreamHandler()
         console.setLevel(logging.DEBUG)
         logging.getLogger('').addHandler(console)
         super().__init__(**kwargs)
+        self.category_id = category_id
+        self.start_url = start_url
+        self.book_url = book_url
 
     def start_requests(self):
-        return [scrapy.FormRequest(self.start_url,
-                                   callback=self.generate_requests)]
+        if self.book_url is not None:
+            return [scrapy.FormRequest(self.book_url,
+                                       callback=self.reparse_book)]
+        elif self.start_url is not None:
+            return [scrapy.FormRequest(self.start_url,
+                                       callback=self.generate_requests)]
+
+    def reparse_book(self, response):
+        yakabooua_parser = YakaboouaParser()
+        yield yakabooua_parser.reparse_book_page(response)
 
     def generate_requests(self, response):
         number_of_pages_in_category = self.get_number_of_pages_in_category(response)
