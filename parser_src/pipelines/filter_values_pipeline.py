@@ -1,10 +1,21 @@
 import re
 import unicodedata
 
+from items.book_item import BookItem
+from items.reparsed_book_item import ReparsedBookItem
+
 
 class FilterValuesPipeline(object):
 
     def process_item(self, item, spider):
+        if isinstance(item, BookItem):
+            book = self.process_book_item(item, spider)
+        elif isinstance(item, ReparsedBookItem):
+            book = self.process_reparsed_book_item(item, spider)
+
+        return item
+
+    def process_book_item(self, item: BookItem, spider):
         item['name'] = self.normalize_str_value(item['name'])
         item['original_name'] = self.normalize_str_value(item['original_name'])
         item['author'] = self.normalize_arr_of_strs(item['author'])
@@ -18,7 +29,12 @@ class FilterValuesPipeline(object):
         item['publishing_year'] = self.filter_int_value(item['publishing_year'])
         item['isbn'] = self.normalize_isbn(item['isbn'])
         item['weight'] = self.filter_int_value(item['weight'])
+        return item
 
+    def process_reparsed_book_item(self, item: ReparsedBookItem, spider):
+        item['price'] = self.filter_price(item['price'])
+        item['currency'] = self.filter_currency(item['currency'], spider)
+        item['isbn'] = self.normalize_isbn(item['isbn'])
         return item
 
     def normalize_str_value(self, value: str) -> str:

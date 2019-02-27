@@ -1,10 +1,22 @@
 import json
 import pika
-
+from items.book_item import BookItem
+from items.reparsed_book_item import ReparsedBookItem
 
 class SaveItemsPipeline(object):
 
     def process_item(self, item, spider):
+        book = None
+
+        if isinstance(item, BookItem):
+            book = self.process_book_item(item, spider)
+        elif isinstance(item, ReparsedBookItem):
+            book = self.process_reparsed_book_item(item)
+
+        self.send_item_to_queue(book)
+        return item
+
+    def process_book_item(self, item: BookItem, spider):
         book = {
             'name': item['name'],
             'original_name': item['original_name'],
@@ -20,12 +32,19 @@ class SaveItemsPipeline(object):
             'isbn': item['isbn'],
             'link': item['link'],
             'image': item['images'],
-            'weight': item['weight']
+            'weight': item['weight'],
+            'dealer_name': spider.name,
+            'category_id': spider.category_id
         }
+        return book
 
-        self.send_item_to_queue(book)
-
-        return item
+    def process_reparsed_book_item(self, item: ReparsedBookItem):
+        book = {
+            'isbn': item['isbn'],
+            'price': item['price'],
+            'currency': item['currency'],
+        }
+        return book
 
     def send_item_to_queue(self, item):
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
