@@ -28,11 +28,9 @@ class BookclubSpider(scrapy.Spider):
 
     def start_requests(self):
         if self.book_url is not None:
-            self.logger.critical('1')
             return [scrapy.FormRequest(self.book_url,
                                        callback=self.reparse_book)]
         elif self.start_url is not None:
-            self.logger.critical('2')
             return [scrapy.FormRequest(self.start_url,
                                        callback=self.generate_requests)]
 
