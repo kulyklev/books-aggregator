@@ -1,7 +1,9 @@
 from parsers.base_parser import BaseParser
 from items.book_item import BookItem
+from items.reparsed_book_item import ReparsedBookItem
 # from parser_src.parsers.base_parser import BaseParser
 # from parser_src.items.book_item import BookItem
+# from parser_src.items.reparsed_book_item import ReparsedBookItem
 
 
 class BalkaBookParser(BaseParser):
@@ -28,6 +30,13 @@ class BalkaBookParser(BaseParser):
         book_item['image_urls'] = self.parse_image_urls(response)
         book_item['weight'] = self.parse_weight(response)
 
+        return book_item
+
+    def reparse_book_page(self, response):
+        book_item = ReparsedBookItem()
+        book_item['price'] = self.parse_price(response)
+        book_item['currency'] = self.parse_currency(response)
+        book_item['isbn'] = self.parse_isbn(response)
         return book_item
 
     def parse_name(self, response):
