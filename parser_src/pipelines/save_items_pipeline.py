@@ -11,7 +11,7 @@ class SaveItemsPipeline(object):
         if isinstance(item, BookItem):
             book = self.process_book_item(item, spider)
         elif isinstance(item, ReparsedBookItem):
-            book = self.process_reparsed_book_item(item)
+            book = self.process_reparsed_book_item(item, spider)
 
         self.send_item_to_queue(book)
         return item
@@ -38,11 +38,12 @@ class SaveItemsPipeline(object):
         }
         return book
 
-    def process_reparsed_book_item(self, item: ReparsedBookItem):
+    def process_reparsed_book_item(self, item: ReparsedBookItem, spider):
         book = {
             'isbn': item['isbn'],
             'price': item['price'],
             'currency': item['currency'],
+            'dealer_name': spider.name,
         }
         return book
 
