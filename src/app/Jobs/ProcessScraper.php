@@ -29,7 +29,8 @@ class ProcessScraper implements ShouldQueue
      */
     public function handle()
     {
-         exec("cd /var/www/code/parser_src && scrapy crawl bookclub.ua");
+         //exec("cd /var/www/code/parser_src && scrapy crawl bookclub.ua -a category_id=1 -a start_url=https://www.bookclub.ua/catalog/books/advices/?gc=100");
+         exec("cd /var/www/code/parser_src && scrapy crawl bookclub.ua -a category_id=1 -a start_url=https://www.bookclub.ua/catalog/books/advices/?gc=100 -a book_url=https://www.bookclub.ua/catalog/books/pop/product.html?id=49622");
         // exec("cd /var/www/code/parser_src && scrapy crawl balka-book.com");
         // exec("cd /var/www/code/parser_src && scrapy crawl yakaboo.ua");
     }
