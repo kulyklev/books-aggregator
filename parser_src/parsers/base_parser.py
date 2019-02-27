@@ -16,6 +16,10 @@ class BaseParser(ABC):
         pass
 
     @abstractmethod
+    def reparse_book_page(self, response):
+        pass
+
+    @abstractmethod
     def parse_author(self, response):
         pass
 
