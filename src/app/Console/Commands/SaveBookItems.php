@@ -53,7 +53,7 @@ class SaveBookItems extends Command
 
         $callback = function ($msg) {
             echo ' [x] Received ', $msg->body, "\n";
-            $this->bookItemSaver->saveBook($msg->body);
+            $this->bookItemSaver->processData($msg->body);
             echo " [x] Done\n";
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         };
