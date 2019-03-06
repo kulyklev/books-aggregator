@@ -18,6 +18,7 @@ class SaveItemsPipeline(object):
 
     def process_book_item(self, item: BookItem, spider):
         book = {
+            'data_type': 'bookItem',
             'name': item['name'],
             'original_name': item['original_name'],
             'author': item['author'],
@@ -38,8 +39,10 @@ class SaveItemsPipeline(object):
         }
         return book
 
+    # TODO Rename
     def process_reparsed_book_item(self, item: ReparsedBookItem, spider):
         book = {
+            'data_type': 'reparsedPrice',
             'isbn': item['isbn'],
             'price': item['price'],
             'currency': item['currency'],
