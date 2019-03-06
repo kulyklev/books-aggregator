@@ -18,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->unsignedInteger('book_id');
             $table->unsignedInteger('dealer_id');
             $table->string('link');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreign('book_id')->references('id')->on('books');
             $table->foreign('dealer_id')->references('id')->on('dealers');
             $table->timestamps();
