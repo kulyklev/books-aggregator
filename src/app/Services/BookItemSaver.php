@@ -33,7 +33,7 @@ class BookItemSaver
                 break;
 
             case "reparsedPrice":
-                $this->saveNewPrice($decodedJsonData);
+                $this->saveReparsedPrice($decodedJsonData);
                 break;
 
             default:
@@ -115,18 +115,23 @@ class BookItemSaver
     public function saveOffer($decodedJsonData, Book $book): Offer
     {
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
+        $offer = Offer::where('book_id', $book->id)->where('dealer_id', $dealer->id)->first();
 
-        $newOffer = new Offer();
-        $newOffer->book_id = $book->id;
-        $newOffer->dealer_id = $dealer->id;
-        $newOffer->link = $decodedJsonData->link;
-        if (empty($decodedJsonData->image[0])) {
-            $newOffer->image = null;
+        if ($offer === null) {
+            $newOffer = new Offer();
+            $newOffer->book_id = $book->id;
+            $newOffer->dealer_id = $dealer->id;
+            $newOffer->link = $decodedJsonData->link;
+            if (empty($decodedJsonData->image[0])) {
+                $newOffer->image = null;
+            } else {
+                $newOffer->image = $decodedJsonData->image[0]->path;
+            }
+            $newOffer->save();
+            return $newOffer;
         } else {
-            $newOffer->image = $decodedJsonData->image[0]->path;
+            return $offer;
         }
-        $newOffer->save();
-        return $newOffer;
     }
 
     /**
@@ -173,11 +178,13 @@ class BookItemSaver
         if ($book->product_dimensions == null && $decodedJsonData->product_dimensions != null) {
             $book->product_dimensions = $decodedJsonData->product_dimensions;
         }
-
         $book->save();
+
+        $offer = $this->saveOffer($decodedJsonData, $book);
+        $this->saveReparsedPrice($decodedJsonData);
     }
 
-    protected function saveNewPrice($decodedJsonData)
+    protected function saveReparsedPrice($decodedJsonData)
     {
         $book = Book::where('isbn', $decodedJsonData->isbn)->first();
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
