@@ -24,6 +24,7 @@ class FilterItemsPipeline(object):
         else:
             return True
 
+    # TODO Refactor this function and FilterValuesPipeline.normalize_isbn
     def has_multiple_isbns(self, item) -> bool:
         if "," not in item['isbn']:
             return False

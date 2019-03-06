@@ -77,6 +77,7 @@ class FilterValuesPipeline(object):
         else:
             pass
 
+    # TODO Refactor
     # This function normalizes isbn value and if ISBN contains two or more values, then returns only first one.
     # Because, I don`t have any idea how to store books with several ISBNs
     def normalize_isbn(self, value: str) -> str:
