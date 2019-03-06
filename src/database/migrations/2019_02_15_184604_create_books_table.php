@@ -15,7 +15,7 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('publisher_id');
+            $table->unsignedInteger('publisher_id')->nullable();
             $table->unsignedInteger('category_id');
             $table->string('name', 256);
             $table->string('original_name', 256)->nullable();
@@ -25,7 +25,7 @@ class CreateBooksTable extends Migration
             $table->string('language', 16)->nullable();
             $table->string('original_language', 256)->nullable();
             $table->smallInteger('paperback')->nullable();
-            $table->string('product_dimensions', 16)->nullable();
+            $table->string('product_dimensions', 32)->nullable();
             $table->string('author');
             $table->foreign('publisher_id')->references('id')->on('publishers');
             $table->foreign('category_id')->references('id')->on('categories');
