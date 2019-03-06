@@ -81,5 +81,5 @@ class FilterValuesPipeline(object):
     # Because, I don`t have any idea how to store books with several ISBNs
     def normalize_isbn(self, value: str) -> str:
         isbn = self.normalize_str_value(value)
-        isbn = re.split("[,#]", isbn)
+        isbn = re.split("[,# ]", isbn)
         return isbn[0]
