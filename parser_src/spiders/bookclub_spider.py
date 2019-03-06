@@ -60,7 +60,7 @@ class BookclubSpider(scrapy.Spider):
     def generate_urls(self, number_of_pages_in_category):
         for i in range(number_of_pages_in_category):
             last_book_index = 100 * i
-            yield self.start_url + "&i=" + str(last_book_index) + "&listmode=2"
+            yield self.start_url + "?gc=100&i=" + str(last_book_index) + "&listmode=2"
 
     def parse(self, response):
         pagination = self.get_pagination_items(response)
