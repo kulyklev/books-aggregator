@@ -56,10 +56,17 @@ class BookItemSaver
      */
     public function saveNewBook($decodedJsonData): void
     {
-        $publisher = $this->savePublisher($decodedJsonData->publisher);
-        $book = $this->saveBook($decodedJsonData, $publisher->id);
-        $newOffer = $this->saveOffer($decodedJsonData, $book);
-        $this->savePrice($decodedJsonData, $newOffer);
+        // TODO Refactor
+        if ($decodedJsonData->publisher == null) {
+            $book = $this->saveBook($decodedJsonData);
+            $newOffer = $this->saveOffer($decodedJsonData, $book);
+            $this->savePrice($decodedJsonData, $newOffer);
+        } else {
+            $publisher = $this->savePublisher($decodedJsonData->publisher);
+            $book = $this->saveBook($decodedJsonData, $publisher->id);
+            $newOffer = $this->saveOffer($decodedJsonData, $book);
+            $this->savePrice($decodedJsonData, $newOffer);
+        }
     }
 
     /**
@@ -68,16 +75,20 @@ class BookItemSaver
      * @param string $name
      * @return Publisher
      */
-    protected function savePublisher(string $name): Publisher
+    protected function savePublisher(string $name = null): ?Publisher
     {
-        $newPublisher = new Publisher();
-        $newPublisher->name = $name;
-        $newPublisher->firstOrCreate(['name' => $name]);
-        $publisher = Publisher::where('name', $name)->first();
-        return $publisher;
+        if ($name == null) {
+            return null;
+        } else {
+            $newPublisher = new Publisher();
+            $newPublisher->name = $name;
+            $newPublisher->firstOrCreate(['name' => $name]);
+            $publisher = Publisher::where('name', $name)->first();
+            return $publisher;
+        }
     }
 
-    protected function saveBook($decodedJsonData, $publisherId): Book
+    protected function saveBook($decodedJsonData, $publisherId = null): Book
     {
         $book = new Book();
         $book->name = $decodedJsonData->name;
@@ -109,7 +120,11 @@ class BookItemSaver
         $newOffer->book_id = $book->id;
         $newOffer->dealer_id = $dealer->id;
         $newOffer->link = $decodedJsonData->link;
-        $newOffer->image = $decodedJsonData->image[0]->path;
+        if (empty($decodedJsonData->image[0])) {
+            $newOffer->image = null;
+        } else {
+            $newOffer->image = $decodedJsonData->image[0]->path;
+        }
         $newOffer->save();
         return $newOffer;
     }
