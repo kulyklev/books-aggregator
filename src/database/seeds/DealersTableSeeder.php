@@ -13,7 +13,11 @@ class DealersTableSeeder extends Seeder
     public function run()
     {
         DB::table('dealers')->insert([
-            'site_name' => 'bookclub.ua'
+            'site_name' => 'bookclub.ua',
+        ]);
+
+        DB::table('dealers')->insert([
+            'site_name' => 'balka-book.com',
         ]);
     }
 }
