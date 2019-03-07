@@ -13,8 +13,6 @@ class FilterItemsPipeline(object):
     def process_item(self, item, spider):
         if not self.has_isbn(item):
             raise DropItem("Missing ISBN in %s" % item)
-        elif self.has_multiple_isbns(item):
-            raise DropItem("Two or more ISBNs in %s" % item)
         else:
             return item
 
@@ -23,11 +21,3 @@ class FilterItemsPipeline(object):
             return False
         else:
             return True
-
-    # TODO Refactor this function and FilterValuesPipeline.normalize_isbn
-    def has_multiple_isbns(self, item) -> bool:
-        if "," not in item['isbn']:
-            return False
-        else:
-            return True
-
