@@ -10,4 +10,9 @@ class Dealer extends Model
     {
         return $this->hasMany('App\Models\Offer');
     }
+
+    public function categoryLinks()
+    {
+        return $this->hasMany('App\Models\Offer\CategoryLink');
+    }
 }
