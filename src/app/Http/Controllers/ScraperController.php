@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ProcessScraper;
+use App\Services\ScraperStartService;
 use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ScraperController extends Controller
 {
     public function startScraper(Request $request){
-        ProcessScraper::dispatch('bookclub.ua -a category_id=1 -a start_url=https://www.bookclub.ua/catalog/books/detective')->onConnection('database');
+        $tmp = new ScraperStartService;
+        $tmp->parseCategories();
         return response('Start process', 200);
     }
 }
