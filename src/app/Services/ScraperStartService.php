@@ -11,6 +11,7 @@ namespace App\Services;
 
 use App\Jobs\ProcessScraper;
 use App\Models\CategoryLink;
+use App\Models\Offer;
 
 class ScraperStartService
 {
@@ -19,10 +20,22 @@ class ScraperStartService
         $links = CategoryLink::all();
 
         foreach ($links as $link) {
-            $command = $link->dealer->site_name;
-            $command .= " -a category_id=" . $link->category->id;
-            $command .= " -a start_url=" . $link->url;
-            ProcessScraper::dispatch($command)->onConnection('database');
+            $scrapyStartParams = $link->dealer->site_name;
+            $scrapyStartParams .= " -a category_id=" . $link->category->id;
+            $scrapyStartParams .= " -a start_url=" . $link->url;
+            ProcessScraper::dispatch($scrapyStartParams)->onConnection('database');
+        }
+    }
+
+    public function updatePrices()
+    {
+        $links = Offer::all();
+
+        foreach ($links as $link) {
+            $scrapyStartParams = $link->dealer->site_name;
+            $scrapyStartParams .= " -a book_url=" . $link->link;
+//            dd($scrapyStartParams);
+            ProcessScraper::dispatch($scrapyStartParams)->onConnection('database');
         }
     }
 }
