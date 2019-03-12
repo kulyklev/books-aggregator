@@ -39,5 +39,4 @@ RUN apk add php7 \
 
 WORKDIR /var/www/code/src
 
-# TODO add php artisan queue:work
 CMD ["php", "artisan", "queue:work", "database"]

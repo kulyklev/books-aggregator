@@ -39,7 +39,6 @@ class SaveItemsPipeline(object):
         }
         return book
 
-    # TODO Rename
     def process_reparsed_book_item(self, item: ReparsedBookItem, spider):
         book = {
             'data_type': 'reparsedPrice',
