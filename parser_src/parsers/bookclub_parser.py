@@ -94,5 +94,5 @@ class BookclubParser(BaseParser):
         return image_urls
 
     def parse_weight(self, response):
-        weight = response.xpath("//div[contains(text(),'Вес')]/following::div[1]/text()").extract_first()
+        weight = response.xpath("//div[@class='prd-attributes']/div[contains(text(),'Вес')]/following::div[1]/text()").extract_first()
         return weight
