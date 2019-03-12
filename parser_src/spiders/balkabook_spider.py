@@ -39,16 +39,22 @@ class BalkaBookSpider(scrapy.Spider):
 
     def generate_requests(self, response):
         number_of_pages_in_category = self.get_number_of_pages_in_category(response)
-        requests = self.generate_urls(number_of_pages_in_category)
-        for i, request in enumerate(requests):
-            # If statement needed to perform request with 'start_url' second time
-            if i == 0:
-                yield scrapy.Request(request,
-                                     callback=self.parse,
-                                     dont_filter=True)
-            else:
-                yield scrapy.Request(request,
-                                     callback=self.parse)
+
+        if number_of_pages_in_category is None:
+            yield scrapy.Request(self.start_url,
+                                 callback=self.parse,
+                                 dont_filter=True)
+        else:
+            requests = self.generate_urls(number_of_pages_in_category)
+            for i, request in enumerate(requests):
+                # If statement needed to perform request with 'start_url' second time
+                if i == 0:
+                    yield scrapy.Request(request,
+                                         callback=self.parse,
+                                         dont_filter=True)
+                else:
+                    yield scrapy.Request(request,
+                                         callback=self.parse)
 
     def get_number_of_pages_in_category(self, response) -> int:
         number_of_pages = response.xpath("//div[@class='links']/a[position() = last()]/text()").extract_first()
