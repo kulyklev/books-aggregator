@@ -11,13 +11,24 @@ services:
     volumes:
       - ./../:/var/www/code
 
-  scrapy:
+  scrape_worker:
     build:
       context: ./scrape_worker
       dockerfile: Dockerfile
     image: scrape-worker
     depends_on:
       - rabbitmq
+    volumes:
+      - ./../:/var/www/code
+
+  save_worker:
+    build:
+      context: ./save_worker
+      dockerfile: Dockerfile
+    image: save-worker
+    depends_on:
+      - rabbitmq
+      - mysql
     volumes:
       - ./../:/var/www/code
 

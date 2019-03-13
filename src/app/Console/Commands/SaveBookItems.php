@@ -20,7 +20,7 @@ class SaveBookItems extends Command
      *
      * @var string
      */
-    protected $description = 'Starts rabbitmq listener to save parsed data';
+    protected $description = 'Start rabbitmq listener to save parsed data';
 
     protected $bookItemSaver;
 
