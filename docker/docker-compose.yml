@@ -51,8 +51,10 @@ services:
       dockerfile: Dockerfile
     image: books-parsers-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: books-aggregator
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306
     volumes:
@@ -66,7 +68,7 @@ services:
     image: books-parsers-rabbitmq
     environment:
       RABBITMQ_HIPE_COMPILE: 1
-#      RABBITMQ_DEFAULT_USER: user
-#      RABBITMQ_DEFAULT_PASS: example
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     ports:
       - 8080:15672

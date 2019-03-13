@@ -50,7 +50,8 @@ class SaveItemsPipeline(object):
         return book
 
     def send_item_to_queue(self, item):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+        credentials = pika.PlainCredentials('admin', 'admin')
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq', credentials=credentials))
         channel = connection.channel()
 
         channel.queue_declare(queue='save_book', durable=True)
