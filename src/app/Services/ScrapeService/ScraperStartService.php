@@ -6,7 +6,7 @@
  * Time: 15:34
  */
 
-namespace App\Services;
+namespace App\Services\ScrapeService;
 
 
 use App\Jobs\ProcessScraper;

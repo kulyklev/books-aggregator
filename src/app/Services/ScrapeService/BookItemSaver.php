@@ -6,7 +6,7 @@
  * Time: 18:04
  */
 
-namespace App\Services;
+namespace App\Services\ScrapeService;
 
 
 use App\Models\Book;

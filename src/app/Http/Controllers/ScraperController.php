@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ProcessScraper;
-use App\Services\ScraperStartService;
-use http\Env\Response;
+use App\Services\ScrapeService\ScraperStartService;
 use Illuminate\Http\Request;
 
 class ScraperController extends Controller
