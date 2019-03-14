@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/parser/start', 'ScraperController@startScraper');
 
 Route::get('/update-prices', 'ScraperController@updatePrices');
+
+Route::resources([
+    'books' => 'BookController',
+]);
