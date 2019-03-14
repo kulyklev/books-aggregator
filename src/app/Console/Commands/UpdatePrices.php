@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\ScraperStartService;
+use App\Services\ScrapeService\ScraperStartService;
 use Illuminate\Console\Command;
 
 class UpdatePrices extends Command

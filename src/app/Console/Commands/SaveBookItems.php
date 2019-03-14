@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\BookItemSaver;
+use App\Services\ScrapeService\BookItemSaver;
 use Illuminate\Console\Command;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
