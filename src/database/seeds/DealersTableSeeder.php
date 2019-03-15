@@ -19,5 +19,9 @@ class DealersTableSeeder extends Seeder
         DB::table('dealers')->insert([
             'site_name' => 'balka-book.com',
         ]);
+
+        DB::table('dealers')->insert([
+            'site_name' => 'yakaboo.ua',
+        ]);
     }
 }
