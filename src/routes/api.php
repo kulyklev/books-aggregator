@@ -27,5 +27,5 @@ Route::apiResources([
 ]);
 
 Route::apiResource('categories.links', 'CategoryLinkController')->except([
-    'show'
+    'index'
 ]);
