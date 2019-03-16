@@ -23,4 +23,6 @@ Route::get('/update-prices', 'ScraperController@updatePrices');
 
 Route::resources([
     'books' => 'BookController',
+    'categories' => 'CategoryController',
+    'categories.links' => 'CategoryLinkController',
 ]);
