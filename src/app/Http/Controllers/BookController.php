@@ -89,7 +89,6 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        $success = $this->bookService->deleteBook($book);
-        return response($success, 200);
+        //
     }
 }

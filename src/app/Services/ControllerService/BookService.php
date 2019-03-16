@@ -10,6 +10,7 @@ namespace App\Services\ControllerService;
 
 
 use App\Http\Resources\BookCollection;
+use App\Http\Resources\Book as BookResource;
 use App\Models\Book;
 
 class BookService
@@ -19,20 +20,15 @@ class BookService
      */
     public function getAll()
     {
-//        $books = Book::paginate(20);
-        $books = new BookCollection(Book::paginate(24));
-        return $books;
+        return new BookCollection(Book::paginate(24));
     }
 
+    /**
+     * @param Book $book
+     * @return BookResource
+     */
     public function getBookInfo(Book $book)
     {
-        $offers = $book->offers();
-        $prices = $offers->prices();
-        return $book;
-    }
-
-    public function deleteBook(Book $book): bool
-    {
-        return $book->delete();
+        return new BookResource($book);
     }
 }
