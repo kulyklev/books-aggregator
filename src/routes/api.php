@@ -21,8 +21,11 @@ Route::get('/parser/start', 'ScraperController@startScraper');
 
 Route::get('/update-prices', 'ScraperController@updatePrices');
 
-Route::resources([
+Route::apiResources([
     'books' => 'BookController',
     'categories' => 'CategoryController',
-    'categories.links' => 'CategoryLinkController',
+]);
+
+Route::apiResource('categories.links', 'CategoryLinkController')->except([
+    'show'
 ]);
