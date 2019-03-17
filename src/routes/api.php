@@ -26,6 +26,6 @@ Route::apiResources([
     'categories' => 'CategoryController',
 ]);
 
-Route::apiResource('categories.links', 'CategoryLinkController')->except([
+Route::apiResource('categories.category-links', 'CategoryLinkController')->except([
     'index'
 ]);

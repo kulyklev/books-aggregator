@@ -16,7 +16,7 @@ class CreateCategoryLinksTable extends Migration
         Schema::create('category_links', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('category_id');
-            $table->string('url');
+            $table->string('url')->unique();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
