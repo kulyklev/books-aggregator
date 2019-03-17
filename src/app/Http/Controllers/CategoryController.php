@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategory;
 use App\Models\Category;
 use App\Services\ControllerService\CategoryService;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -45,34 +46,45 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Category  $category
+     * @return \App\Http\Resources\Category
      */
     public function show(Category $category)
     {
-        //
+        return $this->categoryService->show($category);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Http\Requests\StoreCategory $request
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(StoreCategory $request, Category $category)
     {
-        //
+        $isUpdated = $this->categoryService->update($category, $request->input('name'));
+        if ($isUpdated) {
+            return response('Category \'' . $category->name . '\' is updated', 200);
+        } else {
+            return response('Some error occurred', 400);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Models\Category $category
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {
-        //
+        $isDeleted = $this->categoryService->delete($category);
+        if ($isDeleted) {
+            return response('Category \'' . $category->name . '\' is deleted', 200);
+        } else {
+            return response('Some error occurred', 400);
+        }
     }
 }
