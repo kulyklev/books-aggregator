@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetCategory;
 use App\Http\Requests\SearchBook;
 use App\Http\Resources\BookCollection;
 use App\Models\Book;
@@ -80,8 +81,9 @@ class BookController extends Controller
         return $books;
     }
 
-    public function getCategory(Request $request)
+    public function getCategory(GetCategory $request)
     {
-        return 'a';
+        $books = $this->bookService->getCategory($request->input('category_name'));
+        return $books;
     }
 }
