@@ -13,6 +13,7 @@ use App\Http\Resources\BookCollection;
 use App\Http\Resources\Book as BookResource;
 use App\Models\Book;
 use App\Models\Category;
+use Illuminate\Pagination\Paginator;
 
 class BookService
 {
@@ -35,13 +36,14 @@ class BookService
 
     public function search(string $searchText)
     {
-        $books = Book::search($searchText)->get();
+        $books = Book::search($searchText)->paginate(24);
         return new BookCollection($books);
     }
 
     public function getCategory(string $categoryName)
     {
-        $books = Category::where('name', $categoryName)->first()->books;
+        $category = Category::where('name', $categoryName)->first();
+        $books = Book::where('category_id', $category->id)->paginate(24);
         return new BookCollection($books);
     }
 }
