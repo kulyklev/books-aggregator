@@ -21,6 +21,10 @@ Route::get('/parser/start', 'ScraperController@startScraper');
 
 Route::get('/update-prices', 'ScraperController@updatePrices');
 
+Route::get('/search', 'BookController@search');
+
+Route::get('/category', 'BookController@getCategory');
+
 Route::apiResources([
     'books' => 'BookController',
     'categories' => 'CategoryController',

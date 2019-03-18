@@ -31,4 +31,10 @@ class BookService
     {
         return new BookResource($book);
     }
+
+    public function search(string $searchText)
+    {
+        $books = Book::search($searchText)->get();
+        return new BookCollection($books);
+    }
 }
