@@ -43,7 +43,11 @@ class BookService
     public function getCategory(string $categoryName)
     {
         $category = Category::where('name', $categoryName)->first();
-        $books = Book::where('category_id', $category->id)->paginate(24);
-        return new BookCollection($books);
+        if ($category == null) {
+            return null;
+        } else {
+            $books = Book::where('category_id', $category->id)->paginate(24);
+            return new BookCollection($books);
+        }
     }
 }
