@@ -44,7 +44,7 @@ class SaveBookItems extends Command
      */
     public function handle()
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', 'admin');
+        $connection = new AMQPStreamConnection(env('RABBITMQ_HOST'), env('RABBITMQ_PORT'), env('RABBITMQ_LOGIN'), env('RABBITMQ_PASSWORD'));
         $channel = $connection->channel();
 
         $channel->queue_declare('save_book', false, true, false, false);
