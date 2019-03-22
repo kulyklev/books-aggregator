@@ -106,6 +106,10 @@ MAIL_TLS = os.getenv("MAIL_TLS")
 MAIL_SSL = os.getenv("MAIL_SSL")
 STATSMAILER_RCPTS = os.getenv("MAIL_RECEIVERS").split()
 
+RABBITMQ_HOST = os.getenv("RABBITMQ_HOST")
+RABBITMQ_PORT = os.getenv("RABBITMQ_PORT")
+RABBITMQ_LOGIN = os.getenv("RABBITMQ_LOGIN")
+RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD")
 
 # TODO Change path to laravel storage
 IMAGES_STORE = './images'

@@ -3,6 +3,9 @@ import pika
 from items.book_item import BookItem
 from items.reparsed_book_item import ReparsedBookItem
 
+from parser_src.settings import RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_HOST, RABBITMQ_PORT
+
+
 class SaveItemsPipeline(object):
 
     def process_item(self, item, spider):
@@ -50,8 +53,8 @@ class SaveItemsPipeline(object):
         return book
 
     def send_item_to_queue(self, item):
-        credentials = pika.PlainCredentials('admin', 'admin')
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq', credentials=credentials))
+        credentials = pika.PlainCredentials(RABBITMQ_LOGIN, RABBITMQ_PASSWORD)
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, credentials=credentials))
         channel = connection.channel()
 
         channel.queue_declare(queue='save_book', durable=True)
