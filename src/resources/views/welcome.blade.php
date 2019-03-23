@@ -6,7 +6,7 @@
 
         <link rel="stylesheet" href="/css/app.css">
 
-        <title>Laravel</title>
+        <title>Books aggregator</title>
 
     </head>
     <body>

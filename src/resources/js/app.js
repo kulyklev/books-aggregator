@@ -1,6 +1,10 @@
 import router from './router'
 import App from './components/App'
+import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 
+
+Vue.use(BootstrapVue);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
