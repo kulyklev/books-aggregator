@@ -1815,6 +1815,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Book",
   props: ['id']
@@ -59099,9 +59169,185 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._v("\n    this is book page #" + _vm._s(this.id) + "\n")
-  ])
+  return _c(
+    "b-container",
+    [
+      _c(
+        "b-row",
+        [
+          _c("b-col", { attrs: { cols: "1", sm: "2", md: "2", lg: "2" } }),
+          _vm._v(" "),
+          _c(
+            "b-col",
+            { staticClass: "p-0" },
+            [
+              _c(
+                "b-card",
+                [
+                  _c("h1", [_vm._v("LALALALALALALALA")]),
+                  _vm._v(" "),
+                  _c(
+                    "b-row",
+                    [
+                      _c(
+                        "b-col",
+                        { attrs: { cols: "1", sm: "2", md: "3", lg: "3" } },
+                        [
+                          _c("b-card-img", {
+                            attrs: {
+                              src:
+                                "https://www.bookclub.ua/images/db/goods/49568_83765.jpg",
+                              width: "5em",
+                              height: "auto"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-col",
+                        [
+                          _c("b-row", [
+                            _vm._v(
+                              "\n                            от\n                            "
+                            ),
+                            _c("span", [_vm._v("100")]),
+                            _vm._v(
+                              "\n                            до\n                            "
+                            ),
+                            _c("span", [_vm._v("200")])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Назва товару")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Оригінальна назва")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Мова")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Мова оригіналу")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Сторінок")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Формат")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Видавництво")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Рік видання")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Щось ще")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("b-card", { staticClass: "mt-2" }, [
+                _c("h3", [_vm._v("offers")])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -59225,14 +59471,16 @@ var render = function() {
                 [
                   _c(
                     "b-col",
-                    { attrs: { md: "6" } },
+                    { attrs: { md: "7" } },
                     [
                       _c(
                         "b-row",
                         [
-                          _c("b-col", [_c("span", [_vm._v("Видавництво:")])]),
+                          _c("b-col", { attrs: { md: "5" } }, [
+                            _c("span", [_vm._v("Видавництво:")])
+                          ]),
                           _vm._v(" "),
-                          _c("b-col", [
+                          _c("b-col", { staticClass: "p-0" }, [
                             _vm._v(
                               "\n                            " +
                                 _vm._s(_vm.book.publisher) +
@@ -59246,9 +59494,11 @@ var render = function() {
                       _c(
                         "b-row",
                         [
-                          _c("b-col", [_c("span", [_vm._v("Автор:")])]),
+                          _c("b-col", { attrs: { md: "5" } }, [
+                            _c("span", [_vm._v("Автор:")])
+                          ]),
                           _vm._v(" "),
-                          _c("b-col", [
+                          _c("b-col", { staticClass: "p-0" }, [
                             _vm._v(
                               "\n                            " +
                                 _vm._s(_vm.book.author) +
@@ -59262,12 +59512,14 @@ var render = function() {
                       _c(
                         "b-row",
                         [
-                          _c("b-col", [_c("span", [_vm._v("Рік:")])]),
+                          _c("b-col", { attrs: { md: "5" } }, [
+                            _c("span", [_vm._v("Рік:")])
+                          ]),
                           _vm._v(" "),
-                          _c("b-col", [
+                          _c("b-col", { staticClass: "p-0" }, [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(_vm.book.year) +
+                                _vm._s(_vm.book.publishing_year) +
                                 "\n                        "
                             )
                           ])
@@ -75574,8 +75826,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     name: 'Book',
     props: true,
     component: _components_book_Book__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }],
-  mode: 'history'
+  }] // mode: 'history'
+
 }));
 
 /***/ }),

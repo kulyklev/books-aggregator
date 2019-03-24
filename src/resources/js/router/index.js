@@ -19,5 +19,5 @@ export default new Router({
             component: Book
         },
     ],
-    mode: 'history'
+    // mode: 'history'
 })

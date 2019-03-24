@@ -1,7 +1,77 @@
 <template>
-    <div>
-        this is book page #{{ this.id }}
-    </div>
+    <b-container>
+        <b-row>
+            <b-col cols="1" sm="2" md="2" lg="2">
+
+            </b-col>
+
+            <b-col class="p-0">
+                <b-card>
+                    <h1>LALALALALALALALA</h1>
+
+                    <b-row>
+                        <b-col cols="1" sm="2" md="3" lg="3">
+                            <b-card-img
+                                    src="https://www.bookclub.ua/images/db/goods/49568_83765.jpg"
+                                    width="5em"
+                                    height="auto"
+                            />
+                        </b-col>
+
+                        <b-col>
+                            <b-row>
+                                от
+                                <span>100</span>
+                                до
+                                <span>200</span>
+                            </b-row>
+
+                            <b-row>
+                                <b-col md="4" lg="3">Назва товару</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Оригінальна назва</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Мова</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Мова оригіналу</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Сторінок</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Формат</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Видавництво</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Рік видання</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Щось ще</b-col>
+                                <b-col></b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                </b-card>
+
+                <b-card class="mt-2">
+                    <h3>offers</h3>
+                </b-card>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
