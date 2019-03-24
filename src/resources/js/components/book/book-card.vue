@@ -3,31 +3,31 @@
         <b-card img-src="https://placekitten.com/300/300" img-alt="Card image" img-left class="mb-3" :title="book.name">
             <b-container>
                 <b-row>
-                    <b-col md="6">
+                    <b-col md="7">
                         <b-row>
-                            <b-col>
+                            <b-col md="5">
                                 <span>Видавництво:</span>
                             </b-col>
-                            <b-col>
+                            <b-col class="p-0">
                                 {{ book.publisher }}
                             </b-col>
                         </b-row>
 
                         <b-row>
-                            <b-col>
+                            <b-col md="5">
                                 <span>Автор:</span>
                             </b-col>
-                            <b-col>
+                            <b-col class="p-0">
                                 {{ book.author }}
                             </b-col>
                         </b-row>
 
                         <b-row>
-                            <b-col>
+                            <b-col md="5">
                                 <span>Рік:</span>
                             </b-col>
-                            <b-col>
-                                {{ book.year }}
+                            <b-col class="p-0">
+                                {{ book.publishing_year }}
                             </b-col>
                         </b-row>
                         <router-link to="/book/1">Go to book</router-link>
