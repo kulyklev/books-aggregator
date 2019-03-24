@@ -1858,6 +1858,9 @@ __webpack_require__.r(__webpack_exports__);
     books: function books() {
       return this.$store.getters.books;
     }
+  },
+  created: function created() {
+    this.$store.dispatch('loadBooksPagination');
   }
 });
 
@@ -59098,7 +59101,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "b-col",
-            _vm._l(_vm.books, function(book) {
+            _vm._l(_vm.books.data, function(book) {
               return _c("book-card", { key: book.id, attrs: { book: book } })
             }),
             1
@@ -75122,6 +75125,25 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
 
 /***/ }),
 
+/***/ "./resources/js/axios/index.js":
+/*!*************************************!*\
+  !*** ./resources/js/axios/index.js ***!
+  \*************************************/
+/*! exports provided: HTTP */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HTTP", function() { return HTTP; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var HTTP = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: 'http://booksaggregator.local/'
+});
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -75504,6 +75526,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../axios */ "./resources/js/axios/index.js");
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -75551,52 +75575,22 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         price: "100",
         currency: "UAH"
       }]
-    }, {
-      id: 3,
-      name: 'Book 3',
-      publisher: 'Publisher 3',
-      author: 'Mark T.',
-      year: 2002,
-      offers: [{
-        id: 5,
-        dealer: "bookclub.ua",
-        link: "https://www.bookclub.ua/catalog/books/pop/product.html?id=48765",
-        image: "full/a7d08d8023a354d8f38bddaa40acb0f07e533d04.jpg",
-        price: "99.90",
-        currency: "UAH"
-      }, {
-        id: 6,
-        dealer: "bookclub.ua",
-        link: "https://www.bookclub.ua/catalog/books/pop/product.html?id=48765",
-        image: "full/a7d08d8023a354d8f38bddaa40acb0f07e533d04.jpg",
-        price: "100",
-        currency: "UAH"
-      }]
-    }, {
-      id: 4,
-      name: 'Book 4',
-      publisher: 'Publisher 4',
-      author: 'Mark T.',
-      year: 2011,
-      offers: [{
-        id: 7,
-        dealer: "bookclub.ua",
-        link: "https://www.bookclub.ua/catalog/books/pop/product.html?id=48765",
-        image: "full/a7d08d8023a354d8f38bddaa40acb0f07e533d04.jpg",
-        price: "99.90",
-        currency: "UAH"
-      }, {
-        id: 8,
-        dealer: "bookclub.ua",
-        link: "https://www.bookclub.ua/catalog/books/pop/product.html?id=48765",
-        image: "full/a7d08d8023a354d8f38bddaa40acb0f07e533d04.jpg",
-        price: "100",
-        currency: "UAH"
-      }]
     }]
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    setLoadedBooksPagination: function setLoadedBooksPagination(state, payload) {
+      state.books = payload;
+    }
+  },
+  actions: {
+    loadBooksPagination: function loadBooksPagination() {
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/books').then(function (response) {
+        store.commit('setLoadedBooksPagination', response.data);
+      }).catch(function (e) {
+        console.log(e);
+      });
+    }
+  },
   getters: {
     books: function books(state) {
       return state.books;

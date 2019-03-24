@@ -5,7 +5,7 @@
 
             <b-col>
                 <book-card
-                        v-for="book in books"
+                        v-for="book in books.data"
                         :key="book.id"
                         :book="book"
                 ></book-card>
@@ -25,6 +25,9 @@
                 return this.$store.getters.books
             }
         },
+        created() {
+            this.$store.dispatch('loadBooksPagination')
+        }
     }
 </script>
 
