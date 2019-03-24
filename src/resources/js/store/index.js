@@ -22,6 +22,19 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        updateBooksPagination({commit}, page) {
+            HTTP.get('api/books', {
+                params: {
+                    page: page
+                }
+            })
+                .then(response => {
+                    store.commit('setLoadedBooksPagination', response.data)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {

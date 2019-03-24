@@ -1848,6 +1848,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Books",
@@ -1859,8 +1874,28 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.books;
     }
   },
-  created: function created() {
-    this.$store.dispatch('loadBooksPagination');
+  mounted: function mounted() {
+    if (this.containsKey(this.$route.query, 'page')) {
+      this.$store.dispatch('updateBooksPagination', this.$route.query.page);
+    } else {
+      this.$store.dispatch('loadBooksPagination');
+    }
+  },
+  methods: {
+    linkGen: function linkGen(pageNum) {
+      return {
+        path: '/',
+        query: {
+          page: pageNum
+        }
+      };
+    },
+    updatePagination: function updatePagination(currentPage) {
+      this.$store.dispatch('updateBooksPagination', currentPage);
+    },
+    containsKey: function containsKey(obj, key) {
+      return Object.keys(obj).includes(key);
+    }
   }
 });
 
@@ -59108,6 +59143,38 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-row",
+        { attrs: { "align-h": "center" } },
+        [
+          _c("b-pagination-nav", {
+            attrs: {
+              align: "center",
+              "base-url": "http://booksaggregator.local/",
+              "number-of-pages": _vm.books.meta.last_page,
+              "link-gen": _vm.linkGen,
+              "first-text": "First",
+              "prev-text": "Prev",
+              "next-text": "Next",
+              "last-text": "Last"
+            },
+            on: {
+              input: function($event) {
+                return _vm.updatePagination(_vm.books.meta.current_page)
+              }
+            },
+            model: {
+              value: _vm.books.meta.current_page,
+              callback: function($$v) {
+                _vm.$set(_vm.books.meta, "current_page", $$v)
+              },
+              expression: "books.meta.current_page"
+            }
+          })
+        ],
+        1
       )
     ],
     1
@@ -75543,6 +75610,18 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   actions: {
     loadBooksPagination: function loadBooksPagination() {
       _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/books').then(function (response) {
+        store.commit('setLoadedBooksPagination', response.data);
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    updateBooksPagination: function updateBooksPagination(_ref, page) {
+      var commit = _ref.commit;
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/books', {
+        params: {
+          page: page
+        }
+      }).then(function (response) {
         store.commit('setLoadedBooksPagination', response.data);
       }).catch(function (e) {
         console.log(e);

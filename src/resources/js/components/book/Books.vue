@@ -11,6 +11,21 @@
                 ></book-card>
             </b-col>
         </b-row>
+
+        <b-row align-h="center">
+            <b-pagination-nav
+                    align="center"
+                    base-url="http://booksaggregator.local/"
+                    :number-of-pages="books.meta.last_page"
+                    :link-gen="linkGen"
+                    first-text="First"
+                    prev-text="Prev"
+                    next-text="Next"
+                    last-text="Last"
+                    v-model="books.meta.current_page"
+                    @input="updatePagination(books.meta.current_page)"
+            />
+        </b-row>
     </b-container>
 </template>
 
@@ -25,8 +40,26 @@
                 return this.$store.getters.books
             }
         },
-        created() {
-            this.$store.dispatch('loadBooksPagination')
+        mounted() {
+            if (this.containsKey(this.$route.query, 'page')) {
+                this.$store.dispatch('updateBooksPagination', this.$route.query.page)
+            } else {
+                this.$store.dispatch('loadBooksPagination')
+            }
+        },
+        methods: {
+            linkGen(pageNum) {
+                return {
+                    path: '/',
+                    query: {page: pageNum}
+                }
+            },
+            updatePagination(currentPage) {
+                this.$store.dispatch('updateBooksPagination', currentPage)
+            },
+            containsKey(obj, key ) {
+                return Object.keys(obj).includes(key);
+            }
         }
     }
 </script>
