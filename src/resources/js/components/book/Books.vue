@@ -3,8 +3,12 @@
         <b-row>
             <b-col cols="1" sm="2" md="2" lg="2"></b-col>
 
-            <b-col >
-                <book-card></book-card>
+            <b-col>
+                <book-card
+                        v-for="book in books"
+                        :key="book.id"
+                        :book="book"
+                ></book-card>
             </b-col>
         </b-row>
     </b-container>
@@ -12,9 +16,15 @@
 
 <script>
     import BookCard from "./book-card";
+
     export default {
         name: "Books",
-        components: {BookCard}
+        components: {BookCard},
+        computed: {
+            books() {
+                return this.$store.getters.books
+            }
+        },
     }
 </script>
 

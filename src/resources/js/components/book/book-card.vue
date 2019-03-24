@@ -1,9 +1,6 @@
 <template>
     <div>
-        <b-card img-src="https://placekitten.com/300/300" img-alt="Card image" img-left class="mb-3" :title="book.name"
-                v-for="book in books"
-                :key="book.id"
-        >
+        <b-card img-src="https://placekitten.com/300/300" img-alt="Card image" img-left class="mb-3" :title="book.name">
             <b-container>
                 <b-row>
                     <b-col md="6">
@@ -69,17 +66,12 @@
     export default {
         name: "book-card",
         props: [
-            'id'
+            'id',
+            'book'
         ],
-        computed: {
-            books() {
-                return this.$store.getters.books
-            }
-        },
 
         data() {
             return {
-                tmp: 'temp'
             }
         }
 

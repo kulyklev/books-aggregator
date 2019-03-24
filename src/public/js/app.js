@@ -1844,11 +1844,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Books",
   components: {
     BookCard: _book_card__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    books: function books() {
+      return this.$store.getters.books;
+    }
   }
 });
 
@@ -1927,21 +1936,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "book-card",
-  props: ['id'],
-  computed: {
-    books: function books() {
-      return this.$store.getters.books;
-    }
-  },
+  props: ['id', 'book'],
   data: function data() {
-    return {
-      tmp: 'temp'
-    };
+    return {};
   }
 });
 
@@ -59097,7 +59096,13 @@ var render = function() {
         [
           _c("b-col", { attrs: { cols: "1", sm: "2", md: "2", lg: "2" } }),
           _vm._v(" "),
-          _c("b-col", [_c("book-card")], 1)
+          _c(
+            "b-col",
+            _vm._l(_vm.books, function(book) {
+              return _c("book-card", { key: book.id, attrs: { book: book } })
+            }),
+            1
+          )
         ],
         1
       )
@@ -59129,17 +59134,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.books, function(book) {
-      return _c(
+    [
+      _c(
         "b-card",
         {
-          key: book.id,
           staticClass: "mb-3",
           attrs: {
             "img-src": "https://placekitten.com/300/300",
             "img-alt": "Card image",
             "img-left": "",
-            title: book.name
+            title: _vm.book.name
           }
         },
         [
@@ -59161,7 +59165,7 @@ var render = function() {
                           _c("b-col", [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(book.publisher) +
+                                _vm._s(_vm.book.publisher) +
                                 "\n                        "
                             )
                           ])
@@ -59177,7 +59181,7 @@ var render = function() {
                           _c("b-col", [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(book.author) +
+                                _vm._s(_vm.book.author) +
                                 "\n                        "
                             )
                           ])
@@ -59193,7 +59197,7 @@ var render = function() {
                           _c("b-col", [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(book.year) +
+                                _vm._s(_vm.book.year) +
                                 "\n                        "
                             )
                           ])
@@ -59225,7 +59229,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._l(book.offers, function(offer) {
+                      _vm._l(_vm.book.offers, function(offer) {
                         return _c(
                           "b-row",
                           { key: offer.id },
@@ -59262,7 +59266,7 @@ var render = function() {
         ],
         1
       )
-    }),
+    ],
     1
   )
 }
