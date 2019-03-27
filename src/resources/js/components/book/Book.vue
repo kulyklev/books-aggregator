@@ -31,6 +31,14 @@
                                 <b-col>{{ book.original_name }}</b-col>
                             </b-row>
                             <b-row>
+                                <b-col md="4" lg="3">Автор</b-col>
+                                <b-col>{{ book.author }}</b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">ISBN</b-col>
+                                <b-col>{{ book.isbn }}</b-col>
+                            </b-row>
+                            <b-row>
                                 <b-col md="4" lg="3">Мова</b-col>
                                 <b-col>{{ book.language }}</b-col>
                             </b-row>
@@ -55,8 +63,12 @@
                                 <b-col>{{ book.publishing_year }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Щось ще</b-col>
-                                <b-col></b-col>
+                                <b-col md="4" lg="3">Категорія</b-col>
+                                <b-col>{{ book.category }}</b-col>
+                            </b-row>
+                            <b-row>
+                                <b-col md="4" lg="3">Вага</b-col>
+                                <b-col>{{ book.weight }}</b-col>
                             </b-row>
                         </b-col>
                     </b-row>
@@ -74,9 +86,7 @@
     export default {
         name: "Book",
 
-        props: {
-            id: Number,
-        },
+        props: ['id'],
         mounted() {
             this.$store.dispatch('loadBookData', this.id)
         },

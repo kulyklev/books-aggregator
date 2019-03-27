@@ -1881,11 +1881,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Book",
-  props: {
-    id: Number
-  },
+  props: ['id'],
   mounted: function mounted() {
     this.$store.dispatch('loadBookData', this.id);
   },
@@ -59243,6 +59253,30 @@ var render = function() {
                             "b-row",
                             [
                               _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Автор")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.author))])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("ISBN")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.isbn))])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
                                 _vm._v("Мова")
                               ]),
                               _vm._v(" "),
@@ -59321,10 +59355,22 @@ var render = function() {
                             "b-row",
                             [
                               _c("b-col", { attrs: { md: "4", lg: "3" } }, [
-                                _vm._v("Щось ще")
+                                _vm._v("Категорія")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.category))])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
+                                _vm._v("Вага")
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.weight))])
                             ],
                             1
                           )
