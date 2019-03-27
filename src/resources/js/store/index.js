@@ -6,11 +6,15 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        books: []
+        books: [],
+        book: {}
     },
     mutations: {
         setLoadedBooksPagination(state, payload) {
             state.books = payload
+        },
+        setBookData(state, payload) {
+            state.book = payload
         }
     },
     actions: {
@@ -35,6 +39,17 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        loadBookData({commit}, bookId) {
+            HTTP.get('api/books/' + bookId)
+                .then(response => {
+                    console.log(response.data)
+                    store.commit('setBookData', response.data)
+                    console.log(store.state.book)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {
@@ -42,11 +57,7 @@ export const store = new Vuex.Store({
             return state.books
         },
         book(state) {
-            return (bookId) => {
-                return state.books.find((book) => {
-                    return book.id == bookId
-                })
-            }
+            return state.book
         }
     },
 })

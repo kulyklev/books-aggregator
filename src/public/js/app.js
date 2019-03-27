@@ -1881,13 +1881,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Book",
-  props: ['id']
+  props: {
+    id: Number
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('loadBookData', this.id);
+  },
+  computed: {
+    book: function book() {
+      return this.$store.getters.book;
+    }
+  }
 });
 
 /***/ }),
@@ -59184,7 +59190,7 @@ var render = function() {
               _c(
                 "b-card",
                 [
-                  _c("h1", [_vm._v("LALALALALALALALA")]),
+                  _c("h1", [_vm._v(_vm._s(_vm.book.name))]),
                   _vm._v(" "),
                   _c(
                     "b-row",
@@ -59223,22 +59229,12 @@ var render = function() {
                             "b-row",
                             [
                               _c("b-col", { attrs: { md: "4", lg: "3" } }, [
-                                _vm._v("Назва товару")
-                              ]),
-                              _vm._v(" "),
-                              _c("b-col")
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-row",
-                            [
-                              _c("b-col", { attrs: { md: "4", lg: "3" } }, [
                                 _vm._v("Оригінальна назва")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [
+                                _vm._v(_vm._s(_vm.book.original_name))
+                              ])
                             ],
                             1
                           ),
@@ -59250,7 +59246,7 @@ var render = function() {
                                 _vm._v("Мова")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.language))])
                             ],
                             1
                           ),
@@ -59262,7 +59258,9 @@ var render = function() {
                                 _vm._v("Мова оригіналу")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [
+                                _vm._v(_vm._s(_vm.book.original_language))
+                              ])
                             ],
                             1
                           ),
@@ -59274,7 +59272,7 @@ var render = function() {
                                 _vm._v("Сторінок")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.paperback))])
                             ],
                             1
                           ),
@@ -59286,7 +59284,9 @@ var render = function() {
                                 _vm._v("Формат")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [
+                                _vm._v(_vm._s(_vm.book.product_dimensions))
+                              ])
                             ],
                             1
                           ),
@@ -59298,7 +59298,7 @@ var render = function() {
                                 _vm._v("Видавництво")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [_vm._v(_vm._s(_vm.book.publisher))])
                             ],
                             1
                           ),
@@ -59310,7 +59310,9 @@ var render = function() {
                                 _vm._v("Рік видання")
                               ]),
                               _vm._v(" "),
-                              _c("b-col")
+                              _c("b-col", [
+                                _vm._v(_vm._s(_vm.book.publishing_year))
+                              ])
                             ],
                             1
                           ),
@@ -75852,11 +75854,15 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    books: []
+    books: [],
+    book: {}
   },
   mutations: {
     setLoadedBooksPagination: function setLoadedBooksPagination(state, payload) {
       state.books = payload;
+    },
+    setBookData: function setBookData(state, payload) {
+      state.book = payload;
     }
   },
   actions: {
@@ -75878,6 +75884,16 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       }).catch(function (e) {
         console.log(e);
       });
+    },
+    loadBookData: function loadBookData(_ref2, bookId) {
+      var commit = _ref2.commit;
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/books/' + bookId).then(function (response) {
+        console.log(response.data);
+        store.commit('setBookData', response.data);
+        console.log(store.state.book);
+      }).catch(function (e) {
+        console.log(e);
+      });
     }
   },
   getters: {
@@ -75885,11 +75901,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       return state.books;
     },
     book: function book(state) {
-      return function (bookId) {
-        return state.books.find(function (book) {
-          return book.id == bookId;
-        });
-      };
+      return state.book;
     }
   }
 });

@@ -7,7 +7,7 @@
 
             <b-col class="p-0">
                 <b-card>
-                    <h1>LALALALALALALALA</h1>
+                    <h1>{{ book.name }}</h1>
 
                     <b-row>
                         <b-col cols="1" sm="2" md="3" lg="3">
@@ -27,36 +27,32 @@
                             </b-row>
 
                             <b-row>
-                                <b-col md="4" lg="3">Назва товару</b-col>
-                                <b-col></b-col>
-                            </b-row>
-                            <b-row>
                                 <b-col md="4" lg="3">Оригінальна назва</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.original_name }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Мова</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.language }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Мова оригіналу</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.original_language }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Сторінок</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.paperback }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Формат</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.product_dimensions }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Видавництво</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.publisher }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Рік видання</b-col>
-                                <b-col></b-col>
+                                <b-col>{{ book.publishing_year }}</b-col>
                             </b-row>
                             <b-row>
                                 <b-col md="4" lg="3">Щось ще</b-col>
@@ -78,9 +74,17 @@
     export default {
         name: "Book",
 
-        props: [
-            'id'
-        ],
+        props: {
+            id: Number,
+        },
+        mounted() {
+            this.$store.dispatch('loadBookData', this.id)
+        },
+        computed: {
+            book() {
+                return this.$store.getters.book
+            }
+        }
     }
 </script>
 

@@ -28,6 +28,7 @@ class Book extends JsonResource
             'publisher' => $this->publisher->name,
             'category' => $this->category->name,
             'weight' => $this->when($this->isBooksShowRoute($request), $this->weight),
+            'product_dimensions' => $this->when($this->isBooksShowRoute($request), $this->product_dimensions),
 
             'offers' => new OfferCollection($this->offers),
         ];
