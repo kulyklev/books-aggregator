@@ -13,7 +13,6 @@ use App\Http\Resources\BookCollection;
 use App\Http\Resources\Book as BookResource;
 use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Pagination\Paginator;
 
 class BookService
 {

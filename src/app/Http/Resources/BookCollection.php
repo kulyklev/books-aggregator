@@ -16,10 +16,8 @@ class BookCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-//        dd($request);
         return [
             'data' => $this->collection,
-
         ];
     }
 }
