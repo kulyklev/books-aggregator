@@ -84,6 +84,10 @@
                         ></book-offer>
                     </b-list-group>
                 </b-card>
+
+                <b-card class="mt-2">
+                    <price-chart></price-chart>
+                </b-card>
             </b-col>
         </b-row>
     </b-container>
@@ -91,10 +95,14 @@
 
 <script>
     import BookOffer from './book-offer'
+    import PriceChart from './price-chart'
 
     export default {
         name: "Book",
-        components: {BookOffer},
+        components: {
+            BookOffer,
+            PriceChart
+        },
         props: ['id'],
         data() {
             return {
