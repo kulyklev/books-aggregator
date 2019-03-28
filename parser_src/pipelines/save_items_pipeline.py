@@ -3,7 +3,7 @@ import pika
 from items.book_item import BookItem
 from items.reparsed_book_item import ReparsedBookItem
 
-from parser_src.settings import RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_HOST, RABBITMQ_PORT
+from settings import RABBITMQ_LOGIN, RABBITMQ_PASSWORD, RABBITMQ_HOST, RABBITMQ_PORT
 
 
 class SaveItemsPipeline(object):
