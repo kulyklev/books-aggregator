@@ -20,6 +20,7 @@ class Offer extends JsonResource
         return [
             'id' => $this->id,
             'dealer' => $this->dealer->site_name,
+            'logo' => $this->dealer->logo,
             'link' => $this->link,
             'image' => $this->image,
             'price' => $latestPrice->price,
