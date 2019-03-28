@@ -2,7 +2,7 @@
     <b-list-group-item :href="offer.link">
         <b-row>
             <b-col cols="3">
-                <b-img src="https://www.yakaboo.ua/skin/frontend/bootstrap/yakaboo/images/logo.png" fluid left></b-img>
+                <b-img :src="offer.logo" fluid left class="book-offer-image"></b-img>
             </b-col>
             <b-col class="text-right">
                 {{ offer.price }} &nbsp; {{ offer.currency }}

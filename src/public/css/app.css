@@ -22108,3 +22108,7 @@ table.b-table.b-table-selectable > tbody > tr {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.book-offer-image {
+  max-height: 3em;
+}
+

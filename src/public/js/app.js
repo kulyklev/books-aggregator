@@ -59766,12 +59766,8 @@ var render = function() {
             { attrs: { cols: "3" } },
             [
               _c("b-img", {
-                attrs: {
-                  src:
-                    "https://www.yakaboo.ua/skin/frontend/bootstrap/yakaboo/images/logo.png",
-                  fluid: "",
-                  left: ""
-                }
+                staticClass: "book-offer-image",
+                attrs: { src: _vm.offer.logo, fluid: "", left: "" }
               })
             ],
             1
