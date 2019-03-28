@@ -43,9 +43,7 @@ export const store = new Vuex.Store({
         loadBookData({commit}, bookId) {
             HTTP.get('api/books/' + bookId)
                 .then(response => {
-                    console.log(response.data)
                     store.commit('setBookData', response.data)
-                    console.log(store.state.book)
                 })
                 .catch(e => {
                     console.log(e)

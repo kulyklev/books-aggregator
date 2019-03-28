@@ -20,10 +20,10 @@
 
                         <b-col>
                             <b-row>
-                                от
-                                <span>100</span>
-                                до
-                                <span>200</span>
+                                от &nbsp;
+                                <span>{{ minPrice }}</span>
+                                &nbsp; до &nbsp;
+                                <span>{{ maxPrice }}</span>
                             </b-row>
 
                             <b-row>
@@ -75,7 +75,14 @@
                 </b-card>
 
                 <b-card class="mt-2">
-                    <h3>offers</h3>
+                    <b-list-group>
+                        <h3>Купити книгу</h3>
+                        <book-offer
+                                v-for="offer in book.offers"
+                                :key="offer.id"
+                                :offer="offer"
+                        ></book-offer>
+                    </b-list-group>
                 </b-card>
             </b-col>
         </b-row>
@@ -83,17 +90,44 @@
 </template>
 
 <script>
+    import BookOffer from './book-offer'
+
     export default {
         name: "Book",
-
+        components: {BookOffer},
         props: ['id'],
+        data() {
+            return {
+                minPrice: null,
+                maxPrice: null
+
+            }
+        },
         mounted() {
             this.$store.dispatch('loadBookData', this.id)
+
         },
         computed: {
             book() {
                 return this.$store.getters.book
+            },
+        },
+        methods:{
+            updateMinMaxPrices() {
+                this.minPrice = this.calcMinPrice()
+                this.maxPrice = this.calcMaxPrice()
+            },
+
+            calcMinPrice() {
+                return Math.min(...this.book.offers.map(offer => parseFloat(offer.price)))
+            },
+
+            calcMaxPrice() {
+                return Math.max(...this.book.offers.map(offer => parseFloat(offer.price)))
             }
+        },
+        watch: {
+            book: 'updateMinMaxPrices'
         }
     }
 </script>
