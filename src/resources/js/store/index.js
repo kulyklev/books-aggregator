@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         books: [],
-        book: {}
+        book: {},
+        categories: []
     },
     mutations: {
         setLoadedBooksPagination(state, payload) {
@@ -15,6 +16,9 @@ export const store = new Vuex.Store({
         },
         setBookData(state, payload) {
             state.book = payload
+        },
+        setLoadedCategories(state, payload) {
+            state.categories = payload
         }
     },
     actions: {
@@ -48,6 +52,23 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        loadCategories({commit}) {
+            HTTP.get('api/categories')
+                .then(response => {
+                    let categories = []
+                    response.data.data.forEach(function (category) {
+                        categories.push({
+                            text: category.name,
+                            value: category.id
+                        })
+                    })
+
+                    store.commit('setLoadedCategories', categories)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {
@@ -56,6 +77,9 @@ export const store = new Vuex.Store({
         },
         book(state) {
             return state.book
+        },
+        categories(state) {
+            return state.categories
         }
     },
 })

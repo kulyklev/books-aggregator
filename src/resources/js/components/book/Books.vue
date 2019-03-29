@@ -1,7 +1,9 @@
 <template>
     <b-container class="p-0">
         <b-row>
-            <b-col cols="1" sm="2" md="2" lg="2"></b-col>
+            <b-col cols="1" sm="2" md="2" lg="2">
+                <categories-menu></categories-menu>
+            </b-col>
 
             <b-col>
                 <book-card
@@ -31,10 +33,14 @@
 
 <script>
     import BookCard from "./book-card";
+    import CategoriesMenu from "./categories-menu"
 
     export default {
         name: "Books",
-        components: {BookCard},
+        components: {
+            BookCard,
+            CategoriesMenu
+        },
         computed: {
             books() {
                 return this.$store.getters.books
