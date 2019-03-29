@@ -11,6 +11,7 @@
 
     export default {
         name: "price-chart",
+        props: ['offers'],
         components: {
             highcharts: Chart
         },
@@ -46,27 +47,34 @@
                             enableMouseTracking: true
                         },
                     },
-                    series: [{
-                        name: 'Tokyo',
-                        data: [
-                            {x: (new Date("2019-03-21T15:14:53.000000Z")).getTime(), y: 12},
-                            {x: (new Date("2019-03-22T15:14:53.000000Z")).getTime(), y: 13},
-                            {x: (new Date("2019-03-23T15:14:53.000000Z")).getTime(), y: 14},
-                            {x: (new Date("2019-03-24T15:14:53.000000Z")).getTime(), y: 10},
-                            {x: (new Date("2019-03-25T15:14:53.000000Z")).getTime(), y: 16},
-                            ]
-                    }, {
-                        name: 'London',
-                        data: [
-                            {x: (new Date("2019-03-21T15:14:53.000000Z")).getTime(), y: 2},
-                            {x: (new Date("2019-03-22T15:14:53.000000Z")).getTime(), y: 3},
-                            {x: (new Date("2019-03-23T15:14:53.000000Z")).getTime(), y: 4},
-                            {x: (new Date("2019-03-24T15:14:53.000000Z")).getTime(), y: 1},
-                            {x: (new Date("2019-03-25T15:14:53.000000Z")).getTime(), y: 6},
-                        ]
-                    }]
+                    series: []
                 }
             }
+        },
+        methods: {
+            prepareChartData() {
+                let res = [];
+
+                this.offers.forEach(function (offer) {
+                    let offerObj = {}
+                    offerObj.name = offer.dealer
+                    offerObj.data = []
+
+                    offer.prices.forEach(function (price) {
+                        let point = {}
+
+                        point.x = new Date(price.date).getTime()
+                        point.y = parseFloat(price.price)
+                        offerObj.data.push(point)
+                    })
+                    res.push(offerObj)
+                })
+                console.log(res)
+                this.chartOptions.series = res
+            }
+        },
+        watch: {
+            offers: 'prepareChartData'
         }
     }
 </script>

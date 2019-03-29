@@ -1914,6 +1914,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2173,6 +2175,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "price-chart",
+  props: ['offers'],
   components: {
     highcharts: highcharts_vue__WEBPACK_IMPORTED_MODULE_0__["Chart"]
   },
@@ -2208,45 +2211,31 @@ __webpack_require__.r(__webpack_exports__);
             enableMouseTracking: true
           }
         },
-        series: [{
-          name: 'Tokyo',
-          data: [{
-            x: new Date("2019-03-21T15:14:53.000000Z").getTime(),
-            y: 12
-          }, {
-            x: new Date("2019-03-22T15:14:53.000000Z").getTime(),
-            y: 13
-          }, {
-            x: new Date("2019-03-23T15:14:53.000000Z").getTime(),
-            y: 14
-          }, {
-            x: new Date("2019-03-24T15:14:53.000000Z").getTime(),
-            y: 10
-          }, {
-            x: new Date("2019-03-25T15:14:53.000000Z").getTime(),
-            y: 16
-          }]
-        }, {
-          name: 'London',
-          data: [{
-            x: new Date("2019-03-21T15:14:53.000000Z").getTime(),
-            y: 2
-          }, {
-            x: new Date("2019-03-22T15:14:53.000000Z").getTime(),
-            y: 3
-          }, {
-            x: new Date("2019-03-23T15:14:53.000000Z").getTime(),
-            y: 4
-          }, {
-            x: new Date("2019-03-24T15:14:53.000000Z").getTime(),
-            y: 1
-          }, {
-            x: new Date("2019-03-25T15:14:53.000000Z").getTime(),
-            y: 6
-          }]
-        }]
+        series: []
       }
     };
+  },
+  methods: {
+    prepareChartData: function prepareChartData() {
+      var res = [];
+      this.offers.forEach(function (offer) {
+        var offerObj = {};
+        offerObj.name = offer.dealer;
+        offerObj.data = [];
+        offer.prices.forEach(function (price) {
+          var point = {};
+          point.x = new Date(price.date).getTime();
+          point.y = parseFloat(price.price);
+          offerObj.data.push(point);
+        });
+        res.push(offerObj);
+      });
+      console.log(res);
+      this.chartOptions.series = res;
+    }
+  },
+  watch: {
+    offers: 'prepareChartData'
   }
 });
 
@@ -60052,7 +60041,12 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("b-card", { staticClass: "mt-2" }, [_c("price-chart")], 1)
+              _c(
+                "b-card",
+                { staticClass: "mt-2" },
+                [_c("price-chart", { attrs: { offers: _vm.book.offers } })],
+                1
+              )
             ],
             1
           )

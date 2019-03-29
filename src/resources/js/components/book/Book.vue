@@ -86,7 +86,9 @@
                 </b-card>
 
                 <b-card class="mt-2">
-                    <price-chart></price-chart>
+                    <price-chart
+                            :offers="book.offers"
+                    ></price-chart>
                 </b-card>
             </b-col>
         </b-row>
