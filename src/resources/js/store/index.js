@@ -69,6 +69,15 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        loadCategory({commit}, categoryId) {
+            HTTP.get('api/category/' + categoryId)
+                .then(response => {
+                    store.commit('setLoadedBooksPagination', response.data)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {

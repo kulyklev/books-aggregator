@@ -1,11 +1,11 @@
 <template>
     <b-form-group label="Plain stacked checkboxes">
-        <b-form-checkbox-group
+        <b-form-radio-group
+                id="categories-radio-group"
                 v-model="selected"
                 :options="categories"
-                plain
-                stacked
-        ></b-form-checkbox-group>
+                name="categories"
+        ></b-form-radio-group>
     </b-form-group>
 </template>
 
@@ -14,13 +14,7 @@
         name: "categories-menu",
         data() {
             return {
-                selected: [], // Must be an array reference!
-                options: [
-                    { text: 'Orange', value: 'orange' },
-                    { text: 'Apple', value: 'apple' },
-                    { text: 'Pineapple', value: 'pineapple' },
-                    { text: 'Grape', value: 'grape' }
-                ]
+                selected: null,
             }
         },
         computed: {
@@ -28,8 +22,16 @@
                 return this.$store.getters.categories
             }
         },
+        methods: {
+            getCategory() {
+                this.$store.dispatch('loadCategory', this.selected)
+            }
+        },
         mounted() {
             this.$store.dispatch('loadCategories')
+        },
+        watch: {
+            selected: 'getCategory'
         }
     }
 </script>

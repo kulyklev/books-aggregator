@@ -2182,21 +2182,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "categories-menu",
   data: function data() {
     return {
-      selected: [],
-      // Must be an array reference!
-      options: [{
-        text: 'Orange',
-        value: 'orange'
-      }, {
-        text: 'Apple',
-        value: 'apple'
-      }, {
-        text: 'Pineapple',
-        value: 'pineapple'
-      }, {
-        text: 'Grape',
-        value: 'grape'
-      }]
+      selected: null
     };
   },
   computed: {
@@ -2204,8 +2190,16 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.categories;
     }
   },
+  methods: {
+    getCategory: function getCategory() {
+      this.$store.dispatch('loadCategory', this.selected);
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch('loadCategories');
+  },
+  watch: {
+    selected: 'getCategory'
   }
 });
 
@@ -60446,8 +60440,12 @@ var render = function() {
     "b-form-group",
     { attrs: { label: "Plain stacked checkboxes" } },
     [
-      _c("b-form-checkbox-group", {
-        attrs: { options: _vm.categories, plain: "", stacked: "" },
+      _c("b-form-radio-group", {
+        attrs: {
+          id: "categories-radio-group",
+          options: _vm.categories,
+          name: "categories"
+        },
         model: {
           value: _vm.selected,
           callback: function($$v) {
@@ -77005,6 +77003,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
           });
         });
         store.commit('setLoadedCategories', categories);
+      }).catch(function (e) {
+        console.log(e);
+      });
+    },
+    loadCategory: function loadCategory(_ref4, categoryId) {
+      var commit = _ref4.commit;
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/category/' + categoryId).then(function (response) {
+        store.commit('setLoadedBooksPagination', response.data);
       }).catch(function (e) {
         console.log(e);
       });
