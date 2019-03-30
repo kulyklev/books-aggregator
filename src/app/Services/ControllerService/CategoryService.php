@@ -9,8 +9,10 @@
 namespace App\Services\ControllerService;
 
 
+use App\Http\Resources\BookCollection;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\Category as CategoryResource;
+use App\Models\Book;
 use App\Models\Category;
 
 class CategoryService
@@ -53,5 +55,15 @@ class CategoryService
     public function delete(Category $category): ?bool
     {
         return $category->delete();
+    }
+
+    public function getCategory(Category $category)
+    {
+        if ($category == null) {
+            return null;
+        } else {
+            $books = Book::where('category_id', $category->id)->paginate(24);
+            return new BookCollection($books);
+        }
     }
 }

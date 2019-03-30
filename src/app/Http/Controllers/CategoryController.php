@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetCategory;
 use App\Http\Requests\StoreCategory;
 use App\Models\Category;
 use App\Services\ControllerService\CategoryService;
@@ -86,5 +87,11 @@ class CategoryController extends Controller
         } else {
             return response('Some error occurred', 400);
         }
+    }
+
+    public function getCategory(GetCategory $request, Category $category)
+    {
+        $books = $this->categoryService->getCategory($category);
+        return $books;
     }
 }

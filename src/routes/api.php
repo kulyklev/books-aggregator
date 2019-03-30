@@ -23,7 +23,7 @@ Route::get('/update-prices', 'ScraperController@updatePrices');
 
 Route::get('/search', 'BookController@search');
 
-Route::get('/category', 'BookController@getCategory');
+Route::get('/category/{category}', 'CategoryController@getCategory');
 
 Route::apiResources([
     'books' => 'BookController',

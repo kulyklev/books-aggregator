@@ -12,7 +12,6 @@ namespace App\Services\ControllerService;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\Book as BookResource;
 use App\Models\Book;
-use App\Models\Category;
 
 class BookService
 {
@@ -37,16 +36,5 @@ class BookService
     {
         $books = Book::search($searchText)->paginate(24);
         return new BookCollection($books);
-    }
-
-    public function getCategory(string $categoryName)
-    {
-        $category = Category::where('name', $categoryName)->first();
-        if ($category == null) {
-            return null;
-        } else {
-            $books = Book::where('category_id', $category->id)->paginate(24);
-            return new BookCollection($books);
-        }
     }
 }
