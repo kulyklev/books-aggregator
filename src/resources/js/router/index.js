@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Books from '../components/book/Books'
 import Book from '../components/book/Book'
+import Categories from '../components/category/Categories'
 
 Vue.use(Router)
 
@@ -17,6 +18,12 @@ export default new Router({
             name: 'Book',
             props: true,
             component: Book
+        },
+        {
+            path: '/categories',
+            name: 'Categories',
+            props: true,
+            component: Categories
         },
     ],
     // mode: 'history'

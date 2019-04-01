@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     state: {
         books: [],
         book: {},
-        categories: []
+        categoryNames: [],
+        categoriesData: []
     },
     mutations: {
         setLoadedBooksPagination(state, payload) {
@@ -17,8 +18,11 @@ export const store = new Vuex.Store({
         setBookData(state, payload) {
             state.book = payload
         },
-        setLoadedCategories(state, payload) {
-            state.categories = payload
+        setLoadedCategoryNames(state, payload) {
+            state.categoryNames = payload
+        },
+        setLoadedCategoriesData(state, payload) {
+            state.categoriesData = payload
         }
     },
     actions: {
@@ -53,7 +57,7 @@ export const store = new Vuex.Store({
                     console.log(e)
                 })
         },
-        loadCategories({commit}) {
+        loadCategoryNames({commit}) {
             HTTP.get('api/categories')
                 .then(response => {
                     let categories = []
@@ -64,7 +68,7 @@ export const store = new Vuex.Store({
                         })
                     })
 
-                    store.commit('setLoadedCategories', categories)
+                    store.commit('setLoadedCategoryNames', categories)
                 })
                 .catch(e => {
                     console.log(e)
@@ -78,6 +82,12 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        loadCategoriesData({commit}) {
+            HTTP.get('api/categories')
+                .then(response => {
+                    store.commit('setLoadedCategoriesData', response.data.data)
+                })
         }
     },
     getters: {
@@ -87,8 +97,11 @@ export const store = new Vuex.Store({
         book(state) {
             return state.book
         },
-        categories(state) {
-            return state.categories
+        categoryNames(state) {
+            return state.categoryNames
+        },
+        categoriesData(state) {
+                return state.categoriesData
         }
     },
 })

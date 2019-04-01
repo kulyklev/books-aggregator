@@ -3,7 +3,7 @@
         <b-form-radio-group
                 id="categories-radio-group"
                 v-model="selected"
-                :options="categories"
+                :options="categoryNames"
                 name="categories"
         ></b-form-radio-group>
     </b-form-group>
@@ -18,8 +18,8 @@
             }
         },
         computed: {
-            categories(){
-                return this.$store.getters.categories
+            categoryNames(){
+                return this.$store.getters.categoryNames
             }
         },
         methods: {
@@ -28,7 +28,7 @@
             }
         },
         mounted() {
-            this.$store.dispatch('loadCategories')
+            this.$store.dispatch('loadCategoryNames')
         },
         watch: {
             selected: 'getCategory'

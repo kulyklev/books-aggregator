@@ -2,7 +2,7 @@
     <b-container>
         <b-row>
             <b-col cols="1" sm="2" md="2" lg="2">
-
+                <categories-menu></categories-menu>
             </b-col>
 
             <b-col class="p-0">
@@ -98,12 +98,14 @@
 <script>
     import BookOffer from './book-offer'
     import PriceChart from './price-chart'
+    import CategoriesMenu from "./categories-menu"
 
     export default {
         name: "Book",
         components: {
             BookOffer,
-            PriceChart
+            PriceChart,
+            CategoriesMenu
         },
         props: ['id'],
         data() {
