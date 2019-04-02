@@ -2399,6 +2399,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$nextTick(function () {
         alert(_this.form.categoryName);
 
+        _this.$store.dispatch('saveCategory', _this.form.categoryName);
+
         _this.clearCategoryName(); // Wrapped in $nextTick to ensure DOM is rendered before closing
 
 
@@ -77682,6 +77684,16 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       var commit = _ref5.commit;
       _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/categories').then(function (response) {
         store.commit('setLoadedCategoriesData', response.data.data);
+      });
+    },
+    saveCategory: function saveCategory(_ref6, categoryName) {
+      var commit = _ref6.commit;
+      var formData = new FormData();
+      formData.set('name', categoryName);
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].post('api/categories', formData).then(function (response) {
+        store.dispatch('loadCategoriesData');
+      }).catch(function (e) {
+        console.log(e);
       });
     }
   },

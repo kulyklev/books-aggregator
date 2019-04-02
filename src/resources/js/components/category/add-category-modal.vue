@@ -38,6 +38,8 @@
             handleSubmit(evt) {
                 this.$nextTick(() => {
                     alert(this.form.categoryName)
+                    this.$store.dispatch('saveCategory', this.form.categoryName)
+
                     this.clearCategoryName()
                     // Wrapped in $nextTick to ensure DOM is rendered before closing
                     this.$refs.modal.hide()
