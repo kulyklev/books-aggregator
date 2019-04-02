@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DealerCollection;
 use App\Models\Dealer;
+use App\Services\ControllerService\DealerService;
 use Illuminate\Http\Request;
 
 class DealerController extends Controller
 {
+    protected $dealerService;
+
+    public function __construct(DealerService $dealerService)
+    {
+        $this->dealerService= $dealerService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,7 @@ class DealerController extends Controller
      */
     public function index()
     {
-        //
+        return $this->dealerService->getAll();
     }
 
     /**

@@ -25,6 +25,8 @@ Route::get('/search', 'BookController@search');
 
 Route::get('/category/{category}', 'CategoryController@getCategory');
 
+Route::get('/dealers', 'DealerController@index');
+
 Route::apiResources([
     'books' => 'BookController',
     'categories' => 'CategoryController',
