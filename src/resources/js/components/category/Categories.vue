@@ -31,6 +31,7 @@
         },
         mounted() {
             this.$store.dispatch('loadCategoriesData')
+            this.$store.dispatch('loadDealers')
         },
         computed: {
             categoriesData() {

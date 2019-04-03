@@ -15,7 +15,11 @@
 
                 <b-col align-self="center">
                     <b-row align-h="end">
-                        <b-button block variant="outline-primary">Додати посилання</b-button>
+                        <b-button
+                                block
+                                variant="outline-primary"
+                                :to="{name: 'AddCategoryLink', params:{categoryId: categoryData.id}}"
+                        >Додати посилання</b-button>
                     </b-row>
                     <b-row align-h="end" class="pt-2">
                         <b-button block>Редагувати посилання</b-button>
@@ -29,6 +33,9 @@
 <script>
     export default {
         name: "category-card",
+        components: {
+
+        },
         props: ['categoryData'],
         data() {
             return {

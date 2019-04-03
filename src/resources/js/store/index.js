@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
         books: [],
         book: {},
         categoryNames: [],
-        categoriesData: []
+        categoriesData: [],
+        dealers: []
     },
     mutations: {
         setLoadedBooksPagination(state, payload) {
@@ -23,6 +24,9 @@ export const store = new Vuex.Store({
         },
         setLoadedCategoriesData(state, payload) {
             state.categoriesData = payload
+        },
+        setLoadedDealers(state, payload) {
+            state.dealers = payload
         }
     },
     actions: {
@@ -100,6 +104,35 @@ export const store = new Vuex.Store({
                 .catch(e => {
                     console.log(e)
                 })
+        },
+        loadDealers({commit}){
+            HTTP.get('api/dealers')
+                .then(response => {
+                    let tmp = []
+                    response.data.data.forEach(function (dealer) {
+                        tmp.push({
+                            value: dealer.id,
+                            text: dealer.name
+                        })
+                    })
+                    store.commit("setLoadedDealers", tmp)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+        },
+        saveCategoryLink({commit}, payload) {
+            let formData = new FormData()
+            formData.set('url', payload.link)
+            formData.set('dealer_id', payload.dealer)
+
+            HTTP.post('api/categories/' + 1 + '/category-links', formData)
+                .then(response => {
+
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {
@@ -113,7 +146,10 @@ export const store = new Vuex.Store({
             return state.categoryNames
         },
         categoriesData(state) {
-                return state.categoriesData
+            return state.categoriesData
+        },
+        dealers(state){
+            return state.dealers
         }
     },
 })
