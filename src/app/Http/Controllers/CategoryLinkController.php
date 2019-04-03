@@ -16,6 +16,7 @@ class CategoryLinkController extends Controller
     public function __construct(CategoryLinkService $categoryLinkService)
     {
         $this->categoryLinkService = $categoryLinkService;
+        $this->middleware('auth', array('only' => array('store', 'update', 'destroy')));
     }
 
     /**
