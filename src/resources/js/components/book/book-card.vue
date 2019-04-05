@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card img-src="https://placekitten.com/300/300" img-alt="Card image" img-left class="mb-3" :title="book.name">
+        <b-card :img-src="book.offers[0].image" img-alt="Card image" img-left class="mb-3" :title="book.name">
             <b-container>
                 <b-row>
                     <b-col md="7">
@@ -30,15 +30,15 @@
                                 {{ book.publishing_year }}
                             </b-col>
                         </b-row>
-                        <router-link to="/book/1">Go to book</router-link>
+                        <router-link :to="bookPage">Перешлянути пропозиції</router-link>
                     </b-col>
 
                     <b-col>
                         <div>
                             від
-                            <span>100</span>
+                            <span>{{ minPrice }}</span>
                             до
-                            <span>200</span>
+                            <span>{{ maxPrice }}</span>
                             грн
                         </div>
 
@@ -47,11 +47,11 @@
                                 :key="offer.id"
                         >
                             <b-col>
-                                <a href="#">{{ offer.dealer }}</a>
+                                <a :href="offer.link">{{ offer.dealer }}</a>
                             </b-col>
 
                             <b-col>
-                                <a href="#">{{ offer.price }}</a>
+                                <a :href="offer.link">{{ offer.price }}</a>
                                 {{ offer.currency }}
                             </b-col>
                         </b-row>
@@ -69,12 +69,34 @@
             'id',
             'book'
         ],
-
         data() {
             return {
+                minPrice: null,
+                maxPrice: null
             }
-        }
+        },
+        computed: {
+            bookPage() {
+                return 'book/' + this.book.id
+            }
+        },
+        methods:{
+            updateMinMaxPrices() {
+                this.minPrice = this.calcMinPrice()
+                this.maxPrice = this.calcMaxPrice()
+            },
 
+            calcMinPrice() {
+                return Math.min(...this.book.offers.map(offer => parseFloat(offer.price)))
+            },
+
+            calcMaxPrice() {
+                return Math.max(...this.book.offers.map(offer => parseFloat(offer.price)))
+            }
+        },
+        watch: {
+            book: 'updateMinMaxPrices'
+        }
     }
 </script>
 

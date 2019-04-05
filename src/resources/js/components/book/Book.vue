@@ -12,7 +12,7 @@
                     <b-row>
                         <b-col cols="1" sm="2" md="3" lg="3">
                             <b-card-img
-                                    src="https://www.bookclub.ua/images/db/goods/49568_83765.jpg"
+                                    :src="imageLink"
                                     width="5em"
                                     height="auto"
                             />
@@ -111,13 +111,15 @@
         data() {
             return {
                 minPrice: null,
-                maxPrice: null
+                maxPrice: null,
+                imageLink: ''
 
             }
         },
         mounted() {
-            this.$store.dispatch('loadBookData', this.id)
-
+            this.$store.dispatch('loadBookData', this.id).then(() => {
+                this.imageLink = this.$store.getters.book.offers[0].image
+            })
         },
         computed: {
             book() {
