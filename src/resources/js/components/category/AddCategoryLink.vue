@@ -56,7 +56,6 @@
                     link: this.form.link,
                     dealer: this.form.dealer
                 })
-                alert(JSON.stringify(this.form.dealer))
                 this.$router.push({name: 'Categories'})
             },
             onReset(evt) {

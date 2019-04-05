@@ -2362,7 +2362,6 @@ __webpack_require__.r(__webpack_exports__);
         link: this.form.link,
         dealer: this.form.dealer
       });
-      alert(JSON.stringify(this.form.dealer));
       this.$router.push({
         name: 'Categories'
       });
