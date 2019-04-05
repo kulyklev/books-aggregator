@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Offer extends JsonResource
 {
@@ -22,7 +23,7 @@ class Offer extends JsonResource
             'dealer' => $this->dealer->site_name,
             'logo' => $this->dealer->logo,
             'link' => $this->link,
-            'image' => $this->image,
+            'image' => Storage::url($this->image),
             'price' => $latestPrice->price,
             'currency' => $latestPrice->currency    ,
             'prices' => $this->when($this->isBooksShowRoute($request),
