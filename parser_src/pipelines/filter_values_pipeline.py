@@ -1,5 +1,7 @@
+import datetime
 import re
 import unicodedata
+from typing import Optional
 
 from items.book_item import BookItem
 from items.reparsed_book_item import ReparsedBookItem
@@ -26,7 +28,7 @@ class FilterValuesPipeline(object):
         item['paperback'] = self.filter_int_value(item['paperback'])
         item['product_dimensions'] = self.normalize_str_value(item['product_dimensions'])
         item['publisher'] = self.normalize_str_value(item['publisher'])
-        item['publishing_year'] = self.filter_int_value(item['publishing_year'])
+        item['publishing_year'] = self.is_valid_year(item['publishing_year'])
         item['isbn'] = self.normalize_isbn(item['isbn'])
         item['weight'] = self.filter_int_value(item['weight'])
         return item
@@ -76,6 +78,14 @@ class FilterValuesPipeline(object):
             return int(re.search(r'\d+', value).group())
         else:
             pass
+
+    def is_valid_year(self, value: str) -> Optional[int]:
+        year = self.filter_int_value(value)
+        # 1901 is the min year which can receive MySQL the YEAR type
+        if 1901 < year < datetime.datetime.now().year:
+            return year
+        else:
+            return None
 
     # This function normalizes isbn value and if ISBN contains two or more values, then returns only first one.
     # Because, I don`t have any idea how to store books with several ISBNs
