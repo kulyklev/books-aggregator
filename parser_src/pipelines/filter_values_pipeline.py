@@ -81,10 +81,11 @@ class FilterValuesPipeline(object):
 
     def is_valid_year(self, value: str) -> Optional[int]:
         year = self.filter_int_value(value)
-        if year > datetime.datetime.now().year:
-            return None
-        else:
+        # 1901 is the min year which can receive MySQL the YEAR type
+        if 1901 < year < datetime.datetime.now().year:
             return year
+        else:
+            return None
 
     # This function normalizes isbn value and if ISBN contains two or more values, then returns only first one.
     # Because, I don`t have any idea how to store books with several ISBNs
