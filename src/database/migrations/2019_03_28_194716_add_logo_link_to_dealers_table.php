@@ -14,7 +14,7 @@ class AddLogoLinkToDealersTable extends Migration
     public function up()
     {
         Schema::table('dealers', function (Blueprint $table) {
-            $table->string('logo');
+            $table->string('logo')->nullable();
         });
     }
 

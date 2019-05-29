@@ -34,7 +34,6 @@ class ScraperStartService
         foreach ($links as $link) {
             $scrapyStartParams = $link->dealer->site_name;
             $scrapyStartParams .= " -a book_url=" . $link->link;
-//            dd($scrapyStartParams);
             ProcessScraper::dispatch($scrapyStartParams)->onConnection('database');
         }
     }

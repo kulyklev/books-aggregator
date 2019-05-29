@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class IncreaseLanguageLengthInBooksTable extends Migration
+class ChangeAuthorLengthInBooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class IncreaseLanguageLengthInBooksTable extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('language', 128)->change();
-//            $table->string('original_language', 50)->change();
+            $table->string('author', 512)->change();
         });
     }
 
@@ -27,8 +26,7 @@ class IncreaseLanguageLengthInBooksTable extends Migration
     public function down()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('language', 16)->change();
-//            $table->string('original_language', 256)->change();
+            $table->string('author', 255)->change();
         });
     }
 }

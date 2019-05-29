@@ -24,7 +24,7 @@ class CreateBooksTable extends Migration
             $table->smallInteger('weight')->nullable();
             $table->string('language', 16)->nullable();
             $table->string('original_language', 256)->nullable();
-            $table->smallInteger('paperback')->nullable();
+            $table->unsignedInteger('paperback')->nullable();
             $table->string('product_dimensions', 32)->nullable();
             $table->string('author');
             $table->foreign('publisher_id')->references('id')->on('publishers');
