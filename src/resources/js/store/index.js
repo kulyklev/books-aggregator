@@ -96,18 +96,6 @@ export const store = new Vuex.Store({
                     store.commit('setLoadedCategoriesData', response.data.data)
                 })
         },
-        saveCategory({commit}, categoryName) {
-            let formData = new FormData()
-            formData.set('name', categoryName)
-
-            HTTP.post('api/categories', formData)
-                .then(response => {
-                    store.dispatch('loadCategoriesData')
-            })
-                .catch(e => {
-                    console.log(e)
-                })
-        },
         loadDealers({commit}){
             HTTP.get('api/dealers')
                 .then(response => {
@@ -124,18 +112,8 @@ export const store = new Vuex.Store({
                     console.log(e)
                 })
         },
-        saveCategoryLink({commit}, payload) {
-            let formData = new FormData()
-            formData.set('url', payload.link)
-            formData.set('dealer_id', payload.dealer)
+        searchBook({commit}, payload) {
 
-            HTTP.post('api/categories/' + 1 + '/category-links', formData)
-                .then(response => {
-
-                })
-                .catch(e => {
-                    console.log(e)
-                })
         }
     },
     getters: {
