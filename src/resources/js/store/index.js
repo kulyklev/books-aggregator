@@ -113,7 +113,13 @@ export const store = new Vuex.Store({
                 })
         },
         searchBook({commit}, payload) {
-
+            HTTP.get('api/search?text=' + payload)
+                .then(response => {
+                    store.commit('setLoadedBooksPagination', response.data)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         }
     },
     getters: {

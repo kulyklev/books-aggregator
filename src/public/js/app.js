@@ -1793,8 +1793,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      searchPhrase: ''
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    searchBook: function searchBook() {
+      this.$store.dispatch('searchBook', this.searchPhrase);
+    }
   }
 });
 
@@ -60118,11 +60126,18 @@ var render = function() {
             [
               _c(
                 "b-nav-form",
-                { staticClass: "w-75" },
+                { staticClass: "w-75", on: { submit: _vm.searchBook } },
                 [
                   _c("b-form-input", {
                     staticClass: "mr-sm-2 w-75",
-                    attrs: { type: "text", placeholder: "Search" }
+                    attrs: { type: "text", placeholder: "Search" },
+                    model: {
+                      value: _vm.searchPhrase,
+                      callback: function($$v) {
+                        _vm.searchPhrase = $$v
+                      },
+                      expression: "searchPhrase"
+                    }
                   }),
                   _vm._v(" "),
                   _c(
@@ -78002,18 +78017,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         store.commit('setLoadedCategoriesData', response.data.data);
       });
     },
-    saveCategory: function saveCategory(_ref6, categoryName) {
+    loadDealers: function loadDealers(_ref6) {
       var commit = _ref6.commit;
-      var formData = new FormData();
-      formData.set('name', categoryName);
-      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].post('api/categories', formData).then(function (response) {
-        store.dispatch('loadCategoriesData');
-      }).catch(function (e) {
-        console.log(e);
-      });
-    },
-    loadDealers: function loadDealers(_ref7) {
-      var commit = _ref7.commit;
       _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/dealers').then(function (response) {
         var tmp = [];
         response.data.data.forEach(function (dealer) {
@@ -78027,12 +78032,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         console.log(e);
       });
     },
-    saveCategoryLink: function saveCategoryLink(_ref8, payload) {
-      var commit = _ref8.commit;
-      var formData = new FormData();
-      formData.set('url', payload.link);
-      formData.set('dealer_id', payload.dealer);
-      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].post('api/categories/' + 1 + '/category-links', formData).then(function (response) {}).catch(function (e) {
+    searchBook: function searchBook(_ref7, payload) {
+      var commit = _ref7.commit;
+      _axios__WEBPACK_IMPORTED_MODULE_2__["HTTP"].get('api/search?text=' + payload).then(function (response) {
+        store.commit('setLoadedBooksPagination', response.data);
+      }).catch(function (e) {
         console.log(e);
       });
     }

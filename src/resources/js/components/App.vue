@@ -6,8 +6,8 @@
             <b-navbar-toggle target="nav_collapse" />
 
             <b-collapse is-nav id="nav_collapse">
-                <b-nav-form class="w-75">
-                    <b-form-input class="mr-sm-2 w-75" type="text" placeholder="Search" />
+                <b-nav-form @submit="searchBook" class="w-75">
+                    <b-form-input v-model="searchPhrase" class="mr-sm-2 w-75" type="text" placeholder="Search" />
                     <b-button variant="outline-success" class="my-2 my-sm-0" type="submit">Search</b-button>
                 </b-nav-form>
 
@@ -29,8 +29,19 @@
 
 <script>
     export default {
+        data() {
+            return {
+                searchPhrase: ''
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+
+        },
+        methods: {
+            searchBook() {
+                this.$store.dispatch('searchBook', this.searchPhrase)
+            }
         }
+
     }
 </script>
