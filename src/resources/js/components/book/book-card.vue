@@ -71,21 +71,20 @@
         ],
         data() {
             return {
-                minPrice: null,
-                maxPrice: null
             }
         },
         computed: {
             bookPage() {
                 return 'book/' + this.book.id
+            },
+            minPrice() {
+                return this.calcMinPrice()
+            },
+            maxPrice() {
+                return this.calcMaxPrice()
             }
         },
         methods:{
-            updateMinMaxPrices() {
-                this.minPrice = this.calcMinPrice()
-                this.maxPrice = this.calcMaxPrice()
-            },
-
             calcMinPrice() {
                 return Math.min(...this.book.offers.map(offer => parseFloat(offer.price)))
             },
@@ -94,9 +93,6 @@
                 return Math.max(...this.book.offers.map(offer => parseFloat(offer.price)))
             }
         },
-        watch: {
-            book: 'updateMinMaxPrices'
-        }
     }
 </script>
 
