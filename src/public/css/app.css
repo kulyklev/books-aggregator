@@ -22112,3 +22112,7 @@ table.b-table.b-table-selectable > tbody > tr {
   max-height: 3em;
 }
 
+.card-img-left {
+  max-height: 15em;
+}
+
