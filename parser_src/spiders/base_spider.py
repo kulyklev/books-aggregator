@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from parsers.balkabook_parser import BalkaBookParser
-# from parser_src.parsers.balka-book_parser import BalkaBookParser
 
 import scrapy
 import logging
