@@ -15,7 +15,7 @@ class FilterValuesPipeline(object):
         elif isinstance(item, ReparsedBookItem):
             book = self.process_reparsed_book_item(item, spider)
 
-        return item
+        return book
 
     def process_book_item(self, item: BookItem, spider):
         item['name'] = self.normalize_str_value(item['name'])
@@ -72,20 +72,25 @@ class FilterValuesPipeline(object):
             spider.logger.warning("Unknown currency: %s" % value)
             pass
 
-    def filter_int_value(self, value: str) -> int:
+    def filter_int_value(self, value: str) -> Optional[int]:
         if value is not None:
             value = self.clear_string(value)
             return int(re.search(r'\d+', value).group())
         else:
-            pass
+            return None
 
     def is_valid_year(self, value: str) -> Optional[int]:
         year = self.filter_int_value(value)
-        # 1901 is the min year which can receive MySQL the YEAR type
-        if 1901 < year < datetime.datetime.now().year:
-            return year
+
+        if year is not None:
+            # 1901 is the min year which can receive MySQL the YEAR type
+            if 1901 < year < datetime.datetime.now().year:
+                return year
+            else:
+                return None
         else:
             return None
+
 
     # This function normalizes isbn value and if ISBN contains two or more values, then returns only first one.
     # Because, I don`t have any idea how to store books with several ISBNs
