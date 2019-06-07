@@ -10,7 +10,9 @@
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 import os
 from dotenv import load_dotenv
-load_dotenv()
+from pathlib import Path  # python3 only
+env_path = Path('./.env')
+load_dotenv(dotenv_path=env_path)
 
 BOT_NAME = 'test'
 
@@ -63,6 +65,7 @@ TELNETCONSOLE_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
    'scrapy.extensions.statsmailer.StatsMailer': 1,
+   #  'extensions.mail_stats.StatsMailer': 1
 }
 
 # Configure item pipelines
@@ -97,14 +100,14 @@ ITEM_PIPELINES = {
 
 LOG_LEVEL = 'ERROR'
 
-MAIL_HOST = os.getenv("MAIL_HOST")
-MAIL_FROM = os.getenv("MAIL_FROM")
-MAIL_USER = os.getenv("MAIL_USERNAME")
-MAIL_PASS = os.getenv("MAIL_PASSWORD")
-MAIL_PORT = os.getenv("MAIL_PORT")
-MAIL_TLS = os.getenv("MAIL_TLS")
-MAIL_SSL = os.getenv("MAIL_SSL")
-STATSMAILER_RCPTS = os.getenv("MAIL_RECEIVERS").split()
+MAIL_HOST = os.getenv("MAIL_SCRAPY_HOST")
+MAIL_FROM = os.getenv("MAIL_SCRAPY_FROM")
+MAIL_USER = os.getenv("MAIL_SCRAPY_USER")
+MAIL_PASS = os.getenv("MAIL_SCRAPY_PASS")
+MAIL_PORT = os.getenv("MAIL_SCRAPY_PORT")
+MAIL_TLS = os.getenv("MAIL_SCRAPY_TLS")
+MAIL_SSL = os.getenv("MAIL_SCRAPY_SSL")
+STATSMAILER_RCPTS = os.getenv("MAIL_SCRAPY_RECEIVERS").split()
 
 RABBITMQ_HOST = os.getenv("RABBITMQ_HOST")
 RABBITMQ_PORT = os.getenv("RABBITMQ_PORT")

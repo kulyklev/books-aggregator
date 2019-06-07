@@ -31,6 +31,7 @@ class ProcessScraper implements ShouldQueue
      */
     public function handle()
     {
-        exec("cd /var/www/code/parser_src && scrapy crawl " . $this->scrapyParams);
+        $cmd = "cd /var/www/code/parser_src && scrapy crawl " . $this->scrapyParams;
+        exec($cmd);
     }
 }
