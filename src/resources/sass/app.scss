@@ -12,6 +12,8 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
 
+
+// Custom styles
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -23,4 +25,13 @@
 
 .card-img-left {
   max-height: 15em;
+}
+
+.price-range {
+  color: #f29000;
+  font-size: 1.4em
+}
+
+.container-align{
+  margin-top: 4em;
 }

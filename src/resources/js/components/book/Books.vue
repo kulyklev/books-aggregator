@@ -1,11 +1,11 @@
 <template>
-    <b-container class="p-0">
+    <b-container class="container-align">
         <b-row>
-            <b-col cols="1" sm="2" md="2" lg="2">
+            <b-col class="pr-md-1" cols="1" sm="4" md="3" lg="2">
                 <categories-menu></categories-menu>
             </b-col>
 
-            <b-col>
+            <b-col class="pl-md-0" cols="11" sm="8" md="9" lg="10">
                 <book-card
                         v-for="book in books.data"
                         :key="book.id"

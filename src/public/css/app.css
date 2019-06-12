@@ -22116,3 +22116,12 @@ table.b-table.b-table-selectable > tbody > tr {
   max-height: 15em;
 }
 
+.price-range {
+  color: #f29000;
+  font-size: 1.4em;
+}
+
+.container-align {
+  margin-top: 4em;
+}
+

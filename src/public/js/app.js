@@ -1920,11 +1920,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -2079,8 +2074,6 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-//
-//
 //
 //
 //
@@ -59826,7 +59819,12 @@ var render = function() {
         "b-navbar",
         {
           staticClass: "mb-2",
-          attrs: { toggleable: "lg", type: "dark", variant: "primary" }
+          attrs: {
+            toggleable: "sm",
+            type: "dark",
+            variant: "primary",
+            fixed: "top"
+          }
         },
         [
           _c("b-navbar-brand", { attrs: { href: "#" } }, [
@@ -59841,10 +59839,10 @@ var render = function() {
             [
               _c(
                 "b-nav-form",
-                { staticClass: "w-75", on: { submit: _vm.searchBook } },
+                { staticClass: "w-50", on: { submit: _vm.searchBook } },
                 [
                   _c("b-form-input", {
-                    staticClass: "mr-sm-2 w-75",
+                    staticClass: "mr-sm-2 w-50",
                     attrs: { type: "text", placeholder: "Search" },
                     model: {
                       value: _vm.searchPhrase,
@@ -59859,7 +59857,7 @@ var render = function() {
                     "b-button",
                     {
                       staticClass: "my-2 my-sm-0",
-                      attrs: { variant: "outline-success", type: "submit" }
+                      attrs: { variant: "success", type: "submit" }
                     },
                     [_vm._v("Search")]
                   )
@@ -59867,31 +59865,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "b-navbar-nav",
-                { staticClass: "ml-auto" },
-                [
-                  _c(
-                    "b-nav-item-dropdown",
-                    { attrs: { right: "" } },
-                    [
-                      _c("template", { slot: "button-content" }, [
-                        _c("em", [_vm._v("User")])
-                      ]),
-                      _vm._v(" "),
-                      _c("b-dropdown-item", { attrs: { href: "#" } }, [
-                        _vm._v("Profile")
-                      ]),
-                      _vm._v(" "),
-                      _c("b-dropdown-item", { attrs: { href: "#" } }, [
-                        _vm._v("Signout")
-                      ])
-                    ],
-                    2
-                  )
-                ],
-                1
-              )
+              _c("b-navbar-nav", { staticClass: "ml-auto" })
             ],
             1
           )
@@ -59928,17 +59902,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "b-container",
+    { staticClass: "container-align" },
     [
       _c(
         "b-row",
         [
-          _c(
-            "b-col",
-            { attrs: { cols: "1", sm: "2", md: "2", lg: "2" } },
-            [_c("categories-menu")],
-            1
-          ),
-          _vm._v(" "),
           _c(
             "b-col",
             { staticClass: "p-0" },
@@ -59969,16 +59937,21 @@ var render = function() {
                       _c(
                         "b-col",
                         [
-                          _c("b-row", [
-                            _vm._v(
-                              "\n                            от  \n                            "
-                            ),
-                            _c("span", [_vm._v(_vm._s(_vm.minPrice))]),
-                            _vm._v(
-                              "\n                              до  \n                            "
-                            ),
-                            _c("span", [_vm._v(_vm._s(_vm.maxPrice))])
-                          ]),
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { staticClass: "price-range" }, [
+                                _vm._v(
+                                  "\n                                Ціна:"
+                                ),
+                                _c("span", [_vm._v(_vm._s(_vm.minPrice))]),
+                                _vm._v(" - "),
+                                _c("span", [_vm._v(_vm._s(_vm.maxPrice))]),
+                                _vm._v(" грн\n                            ")
+                              ])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c(
                             "b-row",
@@ -60191,20 +60164,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "b-container",
-    { staticClass: "p-0" },
+    { staticClass: "container-align" },
     [
       _c(
         "b-row",
         [
           _c(
             "b-col",
-            { attrs: { cols: "1", sm: "2", md: "2", lg: "2" } },
+            {
+              staticClass: "pr-md-1",
+              attrs: { cols: "1", sm: "4", md: "3", lg: "2" }
+            },
             [_c("categories-menu")],
             1
           ),
           _vm._v(" "),
           _c(
             "b-col",
+            {
+              staticClass: "pl-md-0",
+              attrs: { cols: "11", sm: "8", md: "9", lg: "10" }
+            },
             _vm._l(_vm.books.data, function(book) {
               return _c("book-card", { key: book.id, attrs: { book: book } })
             }),
@@ -60292,24 +60272,51 @@ var render = function() {
               _c(
                 "b-row",
                 [
+                  _c("b-col", [
+                    _c("div", { staticClass: "price-range" }, [
+                      _c("span", [_vm._v(_vm._s(_vm.minPrice))]),
+                      _vm._v(" - "),
+                      _c("span", [_vm._v(_vm._s(_vm.maxPrice))]),
+                      _vm._v(" грн\n                    ")
+                    ])
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-row",
+                [
                   _c(
                     "b-col",
-                    { attrs: { md: "7" } },
+                    { attrs: { lg: "12", xl: "8" } },
                     [
                       _c(
                         "b-row",
                         [
-                          _c("b-col", { attrs: { md: "5" } }, [
-                            _c("span", [_vm._v("Видавництво:")])
-                          ]),
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "pr-0",
+                              attrs: { md: "5", lg: "3", xl: "4" }
+                            },
+                            [_c("span", [_vm._v("Видавництво:")])]
+                          ),
                           _vm._v(" "),
-                          _c("b-col", { staticClass: "p-0" }, [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.book.publisher) +
-                                "\n                        "
-                            )
-                          ])
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "p-0",
+                              attrs: { md: "7", lg: "9", xl: "8" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.book.publisher) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       ),
@@ -60317,17 +60324,29 @@ var render = function() {
                       _c(
                         "b-row",
                         [
-                          _c("b-col", { attrs: { md: "5" } }, [
-                            _c("span", [_vm._v("Автор:")])
-                          ]),
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "pr-0",
+                              attrs: { md: "5", lg: "3", xl: "4" }
+                            },
+                            [_c("span", [_vm._v("Автор:")])]
+                          ),
                           _vm._v(" "),
-                          _c("b-col", { staticClass: "p-0" }, [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.book.author) +
-                                "\n                        "
-                            )
-                          ])
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "p-0",
+                              attrs: { md: "7", lg: "9", xl: "8" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.book.author) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       ),
@@ -60335,17 +60354,29 @@ var render = function() {
                       _c(
                         "b-row",
                         [
-                          _c("b-col", { attrs: { md: "5" } }, [
-                            _c("span", [_vm._v("Рік:")])
-                          ]),
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "pr-0",
+                              attrs: { md: "5", lg: "3", xl: "4" }
+                            },
+                            [_c("span", [_vm._v("Рік:")])]
+                          ),
                           _vm._v(" "),
-                          _c("b-col", { staticClass: "p-0" }, [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.book.publishing_year) +
-                                "\n                        "
-                            )
-                          ])
+                          _c(
+                            "b-col",
+                            {
+                              staticClass: "p-0",
+                              attrs: { md: "7", lg: "9", xl: "8" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.book.publishing_year) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
                         ],
                         1
                       ),
@@ -60359,48 +60390,33 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-col",
-                    [
-                      _c("div", [
-                        _vm._v(
-                          "\n                        від\n                        "
-                        ),
-                        _c("span", [_vm._v(_vm._s(_vm.minPrice))]),
-                        _vm._v(
-                          "\n                        до\n                        "
-                        ),
-                        _c("span", [_vm._v(_vm._s(_vm.maxPrice))]),
-                        _vm._v(
-                          "\n                        грн\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.book.offers, function(offer) {
-                        return _c(
-                          "b-row",
-                          { key: offer.id },
-                          [
-                            _c("b-col", [
-                              _c("a", { attrs: { href: offer.link } }, [
-                                _vm._v(_vm._s(offer.dealer))
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("b-col", [
-                              _c("a", { attrs: { href: offer.link } }, [
-                                _vm._v(_vm._s(offer.price))
-                              ]),
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(offer.currency) +
-                                  "\n                        "
-                              )
+                    { staticClass: "d-none d-xl-block", attrs: { xl: "4" } },
+                    _vm._l(_vm.book.offers, function(offer) {
+                      return _c(
+                        "b-row",
+                        { key: offer.id },
+                        [
+                          _c("b-col", [
+                            _c("a", { attrs: { href: offer.link } }, [
+                              _vm._v(_vm._s(offer.dealer))
                             ])
-                          ],
-                          1
-                        )
-                      })
-                    ],
-                    2
+                          ]),
+                          _vm._v(" "),
+                          _c("b-col", [
+                            _c("a", { attrs: { href: offer.link } }, [
+                              _vm._v(_vm._s(offer.price))
+                            ]),
+                            _vm._v(
+                              " " +
+                                _vm._s(offer.currency) +
+                                "\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    }),
+                    1
                   )
                 ],
                 1
