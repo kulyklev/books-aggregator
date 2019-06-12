@@ -8,7 +8,7 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-nav-form @submit="searchBook" class="w-50">
                     <b-form-input v-model="searchPhrase" class="mr-sm-2 w-50" type="text" placeholder="Search" />
-                    <b-button variant="success" class="my-2 my-sm-0" type="submit">Search</b-button>
+                    <b-button variant="success" class="my-2 ml-2 my-sm-0" type="submit">Search</b-button>
                 </b-nav-form>
 
                 <!-- Right aligned nav items -->

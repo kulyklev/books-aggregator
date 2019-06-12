@@ -1,16 +1,12 @@
 <template>
-    <b-container>
+    <b-container class="container-align">
         <b-row>
-            <b-col cols="1" sm="2" md="2" lg="2">
-                <categories-menu></categories-menu>
-            </b-col>
-
             <b-col class="p-0">
                 <b-card>
                     <h1>{{ book.name }}</h1>
 
                     <b-row>
-                        <b-col cols="1" sm="2" md="3" lg="3">
+                        <b-col cols="8" sm="8" md="3" lg="3">
                             <b-card-img
                                     :src="imageLink"
                                     width="5em"
@@ -20,55 +16,54 @@
 
                         <b-col>
                             <b-row>
-                                от &nbsp;
-                                <span>{{ minPrice }}</span>
-                                &nbsp; до &nbsp;
-                                <span>{{ maxPrice }}</span>
+                                <b-col class="price-range">
+                                    Ціна:&nbsp;<span>{{ minPrice }}</span>&nbsp-&nbsp;<span>{{ maxPrice }}</span>&nbsp;грн
+                                </b-col>
                             </b-row>
 
                             <b-row>
-                                <b-col md="4" lg="3">Оригінальна назва</b-col>
-                                <b-col>{{ book.original_name }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Оригінальна назва</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.original_name }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Автор</b-col>
-                                <b-col>{{ book.author }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Автор</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.author }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">ISBN</b-col>
-                                <b-col>{{ book.isbn }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">ISBN</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.isbn }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Мова</b-col>
-                                <b-col>{{ book.language }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Мова</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.language }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Мова оригіналу</b-col>
-                                <b-col>{{ book.original_language }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Мова оригіналу</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.original_language }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Сторінок</b-col>
-                                <b-col>{{ book.paperback }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Сторінок</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.paperback }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Формат</b-col>
-                                <b-col>{{ book.product_dimensions }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Формат</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.product_dimensions }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Видавництво</b-col>
-                                <b-col>{{ book.publisher }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Видавництво</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.publisher }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Рік видання</b-col>
-                                <b-col>{{ book.publishing_year }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Рік видання</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.publishing_year }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Категорія</b-col>
-                                <b-col>{{ book.category }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Категорія</b-col>
+                                <b-col class="pl-0 pl-sm-0"> {{ book.category }}</b-col>
                             </b-row>
                             <b-row>
-                                <b-col md="4" lg="3">Вага</b-col>
-                                <b-col>{{ book.weight }}</b-col>
+                                <b-col class="pr-0 pr-sm-0" cols="5" sm="5" md="4" lg="3">Вага</b-col>
+                                <b-col class="pl-0 pl-sm-0">{{ book.weight }}</b-col>
                             </b-row>
                         </b-col>
                     </b-row>
