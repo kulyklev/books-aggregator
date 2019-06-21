@@ -10,6 +10,7 @@ return [
         ],
         "categoryLink" => [
             "list" => \App\Sharp\CategoryLinkSharpList::class,
+            "form" => \App\Sharp\CategoryLinkSharpForm::class
         ],
         "book" => [
             "list" => \App\Sharp\BookSharpList::class,
