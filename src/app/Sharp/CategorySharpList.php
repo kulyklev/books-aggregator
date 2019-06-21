@@ -7,6 +7,7 @@ use Code16\Sharp\EntityList\Containers\EntityListDataContainer;
 use Code16\Sharp\EntityList\EntityListFilter;
 use Code16\Sharp\EntityList\EntityListQueryParams;
 use Code16\Sharp\EntityList\SharpEntityList;
+use Illuminate\Support\Facades\Log;
 
 class CategorySharpList extends SharpEntityList implements EntityListFilter
 {
@@ -26,7 +27,24 @@ class CategorySharpList extends SharpEntityList implements EntityListFilter
      */
     function getListData(EntityListQueryParams $params)
     {
-        return $this->transform(Category::all());
+        //I added this variables to fix shark problem with default values in EntityListQueryParams
+        //I have no idea why it worked one day and stopped another
+        //The problem occurs when you open sharklist from menu.
+        $sortedBy = $params->sortedDir() == null ? 'id' : $params->sortedBy();
+        $sortedDir = $params->sortedDir() == null ? 'asc' : $params->sortedDir();
+
+        $categories = Category::orderBy(
+            $sortedBy, $sortedDir
+        );
+
+        collect($params->searchWords())
+            ->each(function($word) use($categories) {
+                $categories->where(function ($query) use ($word) {
+                    $query->orWhere('name', 'like', $word);
+                });
+            });
+
+        return $this->transform($categories->paginate(24));
     }
 
     /**
@@ -37,13 +55,13 @@ class CategorySharpList extends SharpEntityList implements EntityListFilter
     function buildListDataContainers()
     {
         $this->addDataContainer(
-            EntityListDataContainer::make('id')->setLabel('Id')
+            EntityListDataContainer::make('id')->setLabel('Id')->setSortable()
         )->addDataContainer(
-            EntityListDataContainer::make('name')->setLabel('Name')
+            EntityListDataContainer::make('name')->setLabel('Name')->setSortable()
         )->addDataContainer(
-            EntityListDataContainer::make('created_at')->setLabel('Created at')
+            EntityListDataContainer::make('created_at')->setLabel('Created at')->setSortable()
         )->addDataContainer(
-            EntityListDataContainer::make('updated_at')->setLabel('Updated at')
+            EntityListDataContainer::make('updated_at')->setLabel('Updated at')->setSortable()
         );
     }
 
@@ -54,7 +72,7 @@ class CategorySharpList extends SharpEntityList implements EntityListFilter
      */
     function buildListLayout()
     {
-        $this->addColumn("id", 3)
+        $this->addColumn("id", 1)
             ->addColumn('name', 3)
             ->addColumn('created_at', 3)
             ->addColumn('updated_at', 3);
@@ -67,6 +85,7 @@ class CategorySharpList extends SharpEntityList implements EntityListFilter
      */
     function buildListConfig()
     {
-        // TODO: Implement buildListConfig() method.
+        $this->setPaginated()
+            ->setSearchable();
     }
 }
