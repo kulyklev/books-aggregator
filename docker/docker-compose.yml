@@ -6,10 +6,13 @@ services:
       context: ./php
       dockerfile: Dockerfile
     image: books-parsers-php
+    environment:
+      - PHP_IDE_CONFIG=serverName=test
     depends_on:
       - mysql
     volumes:
       - ./../:/var/www/code
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   scrape_worker:
     build:
@@ -67,7 +70,7 @@ services:
       dockerfile: Dockerfile
     image: books-parsers-rabbitmq
     environment:
-      RABBITMQ_HIPE_COMPILE: 1
+#      RABBITMQ_HIPE_COMPILE: 1
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     ports:
