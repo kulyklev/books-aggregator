@@ -37,4 +37,52 @@ class BookTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function testSearchRequest()
+    {
+        $response = $this->json('GET', 'api/search', ['text' => 'name']);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                    'data' => [
+                            '*' => [
+                                    'id',
+                                    'isbn',
+                                    'name',
+                                    'author',
+                                    'publishing_year',
+                                    'publisher',
+                                    'category',
+                                    'offers' =>
+                                        [
+                                            '*' =>
+                                                [
+                                                    'id',
+                                                    'dealer',
+                                                    'logo',
+                                                    'link',
+                                                    'image',
+                                                    'price',
+                                                    'currency',
+                                                ],
+                                        ],
+                                ],
+                        ],
+                    'links' => [
+                            'first',
+                            'last',
+                            'prev',
+                            'next',
+                        ],
+                    'meta' => [
+                            'current_page',
+                            'from',
+                            'last_page',
+                            'path',
+                            'per_page',
+                            'to',
+                            'total',
+                        ],
+                ]
+            );
+    }
 }
