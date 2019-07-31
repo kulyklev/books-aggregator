@@ -56,17 +56,32 @@ class BookItemSaver
      */
     protected function saveNewBook($decodedJsonData): void
     {
-        // TODO Refactor
         if ($decodedJsonData->publisher == null) {
-            $book = $this->saveBook($decodedJsonData);
-            $newOffer = $this->saveOffer($decodedJsonData, $book);
-            $this->savePrice($decodedJsonData, $newOffer);
+            $this->saveNewBookWithoutPublisher($decodedJsonData);
         } else {
-            $publisher = $this->savePublisher($decodedJsonData->publisher);
-            $book = $this->saveBook($decodedJsonData, $publisher->id);
-            $newOffer = $this->saveOffer($decodedJsonData, $book);
-            $this->savePrice($decodedJsonData, $newOffer);
+            $this->saveNewBookWithPublisher($decodedJsonData);
         }
+    }
+
+    /**
+     * @param $decodedJsonData
+     */
+    protected function saveNewBookWithoutPublisher($decodedJsonData): void
+    {
+        $book = $this->saveBook($decodedJsonData);
+        $newOffer = $this->saveOffer($decodedJsonData, $book);
+        $this->savePrice($decodedJsonData, $newOffer);
+    }
+
+    /**
+     * @param $decodedJsonData
+     */
+    protected function saveNewBookWithPublisher($decodedJsonData): void
+    {
+        $publisher = $this->savePublisher($decodedJsonData->publisher);
+        $book = $this->saveBook($decodedJsonData, $publisher->id);
+        $newOffer = $this->saveOffer($decodedJsonData, $book);
+        $this->savePrice($decodedJsonData, $newOffer);
     }
 
     /**
