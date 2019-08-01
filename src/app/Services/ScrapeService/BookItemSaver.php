@@ -69,8 +69,8 @@ class BookItemSaver
     protected function saveNewBookWithoutPublisher($decodedJsonData): void
     {
         $book = $this->saveBook($decodedJsonData);
-        $newOffer = $this->saveOffer($decodedJsonData, $book);
-        $this->savePrice($decodedJsonData, $newOffer);
+        $newOffer = $this->saveOffer($decodedJsonData, $book->id);
+        $this->savePrice($decodedJsonData, $newOffer->id);
     }
 
     /**
@@ -80,8 +80,8 @@ class BookItemSaver
     {
         $publisher = $this->savePublisher($decodedJsonData->publisher);
         $book = $this->saveBook($decodedJsonData, $publisher->id);
-        $newOffer = $this->saveOffer($decodedJsonData, $book);
-        $this->savePrice($decodedJsonData, $newOffer);
+        $newOffer = $this->saveOffer($decodedJsonData, $book->id);
+        $this->savePrice($decodedJsonData, $newOffer->id);
     }
 
     /**
@@ -124,17 +124,17 @@ class BookItemSaver
 
     /**
      * @param $decodedJsonData
-     * @param Book $book
+     * @param Book $bookId
      * @return Offer
      */
-    protected function saveOffer($decodedJsonData, Book $book): Offer
+    protected function saveOffer($decodedJsonData, int $bookId): Offer
     {
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
-        $offer = Offer::where('book_id', $book->id)->where('dealer_id', $dealer->id)->first();
+        $offer = Offer::where('book_id', $bookId)->where('dealer_id', $dealer->id)->first();
 
         if ($offer === null) {
             $newOffer = new Offer();
-            $newOffer->book_id = $book->id;
+            $newOffer->book_id = $bookId;
             $newOffer->dealer_id = $dealer->id;
             $newOffer->link = $decodedJsonData->link;
             if (empty($decodedJsonData->image[0])) {
@@ -151,12 +151,12 @@ class BookItemSaver
 
     /**
      * @param $decodedJsonData
-     * @param Offer $newOffer
+     * @param int $offerId
      */
-    protected function savePrice($decodedJsonData, Offer $newOffer): void
+    protected function savePrice($decodedJsonData, int $offerId): void
     {
         $newPrice = new Price();
-        $newPrice->offer_id = $newOffer->id;
+        $newPrice->offer_id = $offerId;
         $newPrice->price = $decodedJsonData->price;
         $newPrice->currency = $decodedJsonData->currency;
         $newPrice->save();
@@ -195,7 +195,7 @@ class BookItemSaver
         }
         $book->save();
 
-        $offer = $this->saveOffer($decodedJsonData, $book);
+        $offer = $this->saveOffer($decodedJsonData, $book->id);
         $this->saveReparsedPrice($decodedJsonData);
     }
 
@@ -205,7 +205,7 @@ class BookItemSaver
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
         $offer = $book->offers()->where('dealer_id', $dealer->id)->first();
 
-        $this->savePrice($decodedJsonData, $offer);
+        $this->savePrice($decodedJsonData, $offer->id);
     }
 
 }
