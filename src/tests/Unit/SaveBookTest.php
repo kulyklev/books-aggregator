@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Services\ScrapeService\BookItemSaver;
-use DatabaseSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -71,10 +70,15 @@ class SaveBookTest extends TestCase
           "category_id": 1
         }';
 
+    private $decodedJsonBookItem;
+    private $decodedJsonExistingBookItem;
+
     public function setUp(): void
     {
         parent::setUp();
-//        app(DatabaseSeeder::class)->call(DatabaseSeeder::class);
+
+        $this->decodedJsonBookItem = json_decode($this->jsonBookItem);
+        $this->decodedJsonExistingBookItem = json_decode($this->jsonExistingBookItem);
     }
 
     /**
@@ -130,12 +134,11 @@ class SaveBookTest extends TestCase
     {
         $newName = 'new publisher name';
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'savePublisher');
-        $method->setAccessible(true);
-
-        $bookSaver = new BookItemSaver();
-        $newPublisher = $method->invokeArgs($bookSaver, [$newName]);
-
+        try {
+            $newPublisher = $this->reflectMethod('savePublisher', [$newName]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertTrue($newPublisher->name == $newName);
         $this->assertDatabaseHas('publishers', [
@@ -147,11 +150,11 @@ class SaveBookTest extends TestCase
     {
         $newName = null;
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'savePublisher');
-        $method->setAccessible(true);
-
-        $bookSaver = new BookItemSaver();
-        $savedPublisher = $method->invokeArgs($bookSaver, [$newName]);
+        try {
+            $savedPublisher = $this->reflectMethod('savePublisher', [$newName]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertTrue($savedPublisher == null);
     }
@@ -159,13 +162,12 @@ class SaveBookTest extends TestCase
     public function testSaveBook()
     {
         $publisherId = 1;
-        $decodedJsonData = json_decode($this->jsonBookItem);
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'saveBook');
-        $method->setAccessible(true);
-
-        $bookSaver = new BookItemSaver();
-        $savedBook = $method->invokeArgs($bookSaver, [$decodedJsonData, $publisherId]);
+        try {
+            $savedBook = $this->reflectMethod('saveBook', [$this->decodedJsonBookItem, $publisherId]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertDatabaseHas('books', [
             'name' => 'book name',
@@ -196,13 +198,12 @@ class SaveBookTest extends TestCase
     public function testSaveBookWithoutPublisher()
     {
         $publisherId = null;
-        $decodedJsonData = json_decode($this->jsonBookItem);
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'saveBook');
-        $method->setAccessible(true);
-
-        $bookSaver = new BookItemSaver();
-        $savedBook = $method->invokeArgs($bookSaver, [$decodedJsonData, $publisherId]);
+        try {
+            $savedBook = $this->reflectMethod('saveBook', [$this->decodedJsonBookItem, $publisherId]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertDatabaseHas('books', [
             'name' => 'book name',
@@ -234,13 +235,13 @@ class SaveBookTest extends TestCase
     public function testSaveOffer()
     {
         $bookId = 1;
-        $dealerId = 3; //The id of yakaboo.ua
-        $decodedJsonData = json_decode($this->jsonBookItem);
+        $dealerId = 3; //The id of yakaboo.ua which is passed from $this->decodedJsonBookItem
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'saveOffer');
-        $method->setAccessible(true);
-        $bookSaver = new BookItemSaver();
-        $savedOffer = $method->invokeArgs($bookSaver, [$decodedJsonData, $bookId]);
+        try {
+            $savedOffer = $this->reflectMethod('saveOffer', [$this->decodedJsonBookItem, $bookId]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertEquals($savedOffer->book_id, $bookId);
         $this->assertEquals($savedOffer->dealer_id, $dealerId);
@@ -250,12 +251,12 @@ class SaveBookTest extends TestCase
     {
         $bookId = 1;
         $dealerId = 1; // The id of bookclub.ua
-        $decodedJsonData = json_decode($this->jsonExistingBookItem);
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'saveOffer');
-        $method->setAccessible(true);
-        $bookSaver = new BookItemSaver();
-        $savedOffer = $method->invokeArgs($bookSaver, [$decodedJsonData, $bookId]);
+        try {
+            $savedOffer = $this->reflectMethod('saveOffer', [$this->decodedJsonExistingBookItem, $bookId]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertEquals($savedOffer->book_id, $bookId);
         $this->assertEquals($savedOffer->dealer_id, $dealerId);
@@ -264,17 +265,33 @@ class SaveBookTest extends TestCase
     public function testSavePrice()
     {
         $offerId = 1;
-        $decodedJsonData = json_decode($this->jsonBookItem);
 
-        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', 'savePrice');
-        $method->setAccessible(true);
-        $bookSaver = new BookItemSaver();
-        $method->invokeArgs($bookSaver, [$decodedJsonData, $offerId]);
+        try {
+            $this->reflectMethod('savePrice', [$this->decodedJsonBookItem, $offerId]);
+        } catch (\ReflectionException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
 
         $this->assertDatabaseHas('prices', [
             'offer_id' => 1,
             'price' => 100.5,
             'currency' => 'UAH'
         ]);
+    }
+
+    /**
+     * @param string $methodName
+     * @param array $methodParams
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    protected function reflectMethod(string $methodName, array $methodParams)
+    {
+        $method = new ReflectionMethod('App\Services\ScrapeService\BookItemSaver', $methodName);
+        $method->setAccessible(true);
+
+        $bookSaver = new BookItemSaver();
+        $result = $method->invokeArgs($bookSaver, $methodParams);
+        return $result;
     }
 }
