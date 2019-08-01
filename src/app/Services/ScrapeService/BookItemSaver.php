@@ -42,7 +42,10 @@ class BookItemSaver
         }
     }
 
-    protected function processBookItem($decodedJsonData)
+    /**
+     * @param $decodedJsonData
+     */
+    protected function processBookItem($decodedJsonData): void
     {
         if (Book::where('isbn', $decodedJsonData->isbn)->exists()) {
             $this->insertMissingValuesIntoBook($decodedJsonData);
@@ -103,6 +106,11 @@ class BookItemSaver
         }
     }
 
+    /**
+     * @param $decodedJsonData
+     * @param null $publisherId
+     * @return Book
+     */
     protected function saveBook($decodedJsonData, $publisherId = null): Book
     {
         $book = new Book();
@@ -162,6 +170,10 @@ class BookItemSaver
         $newPrice->save();
     }
 
+    /**
+     * @param $decodedJsonData
+     * TODO May be replace this method to dedicated class
+     */
     protected function insertMissingValuesIntoBook($decodedJsonData): void
     {
         $book = Book::where('isbn', $decodedJsonData->isbn)->first();
@@ -199,6 +211,7 @@ class BookItemSaver
         $this->saveReparsedPrice($decodedJsonData);
     }
 
+    // TODO May be should be deleted
     protected function saveReparsedPrice($decodedJsonData)
     {
         $book = Book::where('isbn', $decodedJsonData->isbn)->first();
