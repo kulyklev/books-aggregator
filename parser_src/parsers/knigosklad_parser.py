@@ -6,7 +6,7 @@ from items.reparsed_book_item import ReparsedBookItem
 # from parser_src.items.reparsed_book_item import ReparsedBookItem
 
 
-class KnigoskParser(BaseParser):
+class KnigoskladParser(BaseParser):
 
     def __init__(self):
         pass

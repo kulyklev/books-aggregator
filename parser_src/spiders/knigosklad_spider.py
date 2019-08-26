@@ -1,5 +1,6 @@
-from parsers.yakabooua_parser import YakaboouaParser
-# from parser_src.parsers.yakabooua_parser import YakaboouaParser
+from scrapy.utils.response import open_in_browser
+
+from parsers.knigosklad_parser import KnigoskladParser
 from spiders.base_spider import BaseSpider
 
 
@@ -25,12 +26,13 @@ class KnigoskladSpider(BaseSpider):
             return int(number_of_pages)
 
     def generate_urls(self, number_of_pages_in_category):
-        return (self.start_url + "?p=" + str(i) for i in range(1, number_of_pages_in_category + 1))
+        urls = (self.start_url + "?p=" + str(i) for i in range(1, number_of_pages_in_category + 1))
+        return urls
 
     def get_pagination_items(self, response):
         # TODO Maybe replace this method to Parser class
         return response.xpath("//a[@class='product-image']/@href").extract()
 
     def parse_pagination(self, response):
-        yakabooua_parser = YakaboouaParser()
-        yield yakabooua_parser.parse_book_page(response)
+        knigosklad_parser = KnigoskladParser()
+        yield knigosklad_parser.parse_book_page(response)
