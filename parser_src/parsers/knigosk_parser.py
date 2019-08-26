@@ -53,16 +53,15 @@ class KnigoskParser(BaseParser):
 
     def parse_price(self, response):
         price = response.xpath("//div[contains(@class, 'product-shop')]//span[@class='regular-price']/span[@class='price']/text()").extract_first()
-        return price
+        return price.split('&nbsp')
 
     def parse_currency(self, response):
-        # TODO Implement
-        currency = response.xpath("").extract_first()
+        price = response.xpath("").extract_first()
+        price, currency = price.split('&nbsp')
         return currency
 
     def parse_language(self, response):
-        # TODO Implement
-        language = response.xpath("").extract_first()
+        language = response.xpath("//th[@class='label']/text()[contains(., 'Язык')]/following::td/text()").extract_first()
         return language
 
     def parse_original_language(self, response):
@@ -70,38 +69,31 @@ class KnigoskParser(BaseParser):
         return None
 
     def parse_paperback(self, response):
-        # TODO Implement
-        paperback = response.xpath("").extract_first()
+        paperback = response.xpath("//th[@class='label']/text()[contains(., 'Страниц')]/following::td[1]/text()").extract_first()
         return paperback
 
     def parse_product_dimensions(self, response):
-        # TODO Implement
-        product_dimensions = response.xpath("").extract_first()
+        product_dimensions = response.xpath("//th[@class='label']/text()[contains(., 'Размеры')]/following::td[1]/text()").extract_first()
         return product_dimensions
 
     def parse_publisher(self, response):
-        # TODO Implement
-        publisher = response.xpath("").extract_first()
-        return publisher
+        # TODO I didn`t find this field yet
+        return None
 
     def parse_publishing_year(self, response):
-        # TODO Implement
-        publishing_year = response.xpath("").extract_first()
+        publishing_year = response.xpath("//th[@class='label']/text()[contains(., 'Год издания')]/following::td[1]/text()").extract_first()
         return publishing_year
 
     def parse_isbn(self, response):
-        # TODO Implement
-        isbn = response.xpath("").extract_first()
+        isbn = response.xpath("//th[@class='label']/text()[contains(., 'ISBN')]/following::td[1]/text()").extract_first()
         return isbn
 
     def parse_image_urls(self, response):
-        # TODO Implement
-        image_url = response.xpath("").extract_first()
+        image_url = response.xpath("//div[contains(@class, 'product-image-zoom')]/a/@href").extract_first()
         image_url = response.urljoin(image_url)
         image_urls = [image_url]
         return image_urls
 
     def parse_weight(self, response):
-        # TODO Implement
-        weight = response.xpath("").extract_first()
-        return weight
+        # TODO I didn`t find this field yet
+        return None
