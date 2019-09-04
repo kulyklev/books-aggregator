@@ -3,6 +3,10 @@ import re
 import unicodedata
 from typing import Optional
 
+from filters.currency_filter import CurrencyFilter
+from filters.price_filter import PriceFilter
+from filters.string_filter import StringFilter
+from filters.whitespace_filter import WhitespaceFilter
 from items.book_item import BookItem
 from items.reparsed_book_item import ReparsedBookItem
 
@@ -31,6 +35,18 @@ class FilterValuesPipeline(object):
         item['publishing_year'] = self.is_valid_year(item['publishing_year'])
         item['isbn'] = self.normalize_isbn(item['isbn'])
         item['weight'] = self.filter_int_value(item['weight'])
+
+
+        item['name'] = StringFilter(item['name'])
+        item['original_name'] = StringFilter(item['original_name'])
+        item['author'] = None
+
+        price_filter = PriceFilter(
+            WhitespaceFilter()
+        )
+
+        item['price'] = price_filter.filter(item['price'])
+
         return item
 
     def process_reparsed_book_item(self, item: ReparsedBookItem, spider):
