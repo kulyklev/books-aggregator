@@ -2,7 +2,7 @@ from abc import ABC
 from filters.filter import Filter
 
 
-class FilterDecorator(ABC, Filter):
+class FilterDecorator(Filter, ABC):
 
     _valueFilter = None
 

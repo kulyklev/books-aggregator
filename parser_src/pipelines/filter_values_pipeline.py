@@ -1,8 +1,9 @@
 import datetime
 import re
 import unicodedata
-from typing import Optional
+import json
 
+from typing import Optional
 from filters.currency_filter import CurrencyFilter
 from filters.int_filter import IntFilter
 from filters.isbn_filter import IsbnFilter
@@ -46,23 +47,27 @@ class FilterValuesPipeline(object):
         ################################################################################################################
         ################################################################################################################
 
-        item['name'] = StringFilter(ValueFilter()).filter(item['name'])
-        item['original_name'] = StringFilter(ValueFilter()).filter(item['original_name'])
+        string_filter = StringFilter(ValueFilter())
+        whitespace_filter = WhitespaceFilter(string_filter)
+        int_filter = IntFilter(whitespace_filter)
+
+        item['name'] = string_filter.filter(item['name'])
+        item['original_name'] = string_filter.filter(item['original_name'])
 
         item['author'] = None
 
-        item['price'] = PriceFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['price'])
-        item['currency'] = CurrencyFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['currency'])
-        item['language'] = StringFilter(ValueFilter()).filter(item['language'])
-        item['original_language'] = StringFilter(ValueFilter()).filter(item['original_language'])
-        item['paperback'] = IntFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['paperback'])
-        item['product_dimensions'] = StringFilter(ValueFilter()).filter(item['product_dimensions'])
-        item['publisher'] = StringFilter(ValueFilter()).filter(item['publisher'])
-        item['publishing_year'] = YearFilter(IntFilter(WhitespaceFilter(StringFilter(ValueFilter())))).filter(item['publishing_year'])
-        item['isbn'] = IsbnFilter(StringFilter(ValueFilter()).filter(item['isbn']))
-        item['weight'] = IntFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['weight'])
+        item['price'] = PriceFilter(whitespace_filter).filter(item['price'])
+        item['currency'] = CurrencyFilter(whitespace_filter).filter(item['currency'])
+        item['language'] = string_filter.filter(item['language'])
+        item['original_language'] = string_filter.filter(item['original_language'])
+        item['paperback'] = int_filter.filter(item['paperback'])
+        item['product_dimensions'] = string_filter.filter(item['product_dimensions'])
+        item['publisher'] = string_filter.filter(item['publisher'])
+        item['publishing_year'] = YearFilter(int_filter).filter(item['publishing_year'])
+        item['isbn'] = IsbnFilter(string_filter.filter(item['isbn']))
+        item['weight'] = int_filter.filter(item['weight'])
 
-        spider.logger.critical(item)
+        spider.logger.critical(json.dumps(item))
 
         ################################################################################################################
         ################################################################################################################
