@@ -4,9 +4,13 @@ import unicodedata
 from typing import Optional
 
 from filters.currency_filter import CurrencyFilter
+from filters.int_filter import IntFilter
+from filters.isbn_filter import IsbnFilter
 from filters.price_filter import PriceFilter
 from filters.string_filter import StringFilter
+from filters.value_filter import ValueFilter
 from filters.whitespace_filter import WhitespaceFilter
+from filters.year_filter import YearFilter
 from items.book_item import BookItem
 from items.reparsed_book_item import ReparsedBookItem
 
@@ -22,30 +26,47 @@ class FilterValuesPipeline(object):
         return book
 
     def process_book_item(self, item: BookItem, spider):
-        item['name'] = self.normalize_str_value(item['name'])
-        item['original_name'] = self.normalize_str_value(item['original_name'])
-        item['author'] = self.normalize_arr_of_strs(item['author'])
-        item['price'] = self.filter_price(item['price'])
-        item['currency'] = self.filter_currency(item['currency'], spider)
-        item['language'] = self.normalize_str_value(item['language'])
-        item['original_language'] = self.normalize_str_value(item['original_language'])
-        item['paperback'] = self.filter_int_value(item['paperback'])
-        item['product_dimensions'] = self.normalize_str_value(item['product_dimensions'])
-        item['publisher'] = self.normalize_str_value(item['publisher'])
-        item['publishing_year'] = self.is_valid_year(item['publishing_year'])
-        item['isbn'] = self.normalize_isbn(item['isbn'])
-        item['weight'] = self.filter_int_value(item['weight'])
+        # item['name'] = self.normalize_str_value(item['name'])
+        # item['original_name'] = self.normalize_str_value(item['original_name'])
+        # item['author'] = self.normalize_arr_of_strs(item['author'])
+        # item['price'] = self.filter_price(item['price'])
+        # item['currency'] = self.filter_currency(item['currency'], spider)
+        # item['language'] = self.normalize_str_value(item['language'])
+        # item['original_language'] = self.normalize_str_value(item['original_language'])
+        # item['paperback'] = self.filter_int_value(item['paperback'])
+        # item['product_dimensions'] = self.normalize_str_value(item['product_dimensions'])
+        # item['publisher'] = self.normalize_str_value(item['publisher'])
+        # item['publishing_year'] = self.is_valid_year(item['publishing_year'])
+        # item['isbn'] = self.normalize_isbn(item['isbn'])
+        # item['weight'] = self.filter_int_value(item['weight'])
 
 
-        item['name'] = StringFilter(item['name'])
-        item['original_name'] = StringFilter(item['original_name'])
+
+        ################################################################################################################
+        ################################################################################################################
+        ################################################################################################################
+
+        item['name'] = StringFilter(ValueFilter()).filter(item['name'])
+        item['original_name'] = StringFilter(ValueFilter()).filter(item['original_name'])
+
         item['author'] = None
 
-        price_filter = PriceFilter(
-            WhitespaceFilter()
-        )
+        item['price'] = PriceFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['price'])
+        item['currency'] = CurrencyFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['currency'])
+        item['language'] = StringFilter(ValueFilter()).filter(item['language'])
+        item['original_language'] = StringFilter(ValueFilter()).filter(item['original_language'])
+        item['paperback'] = IntFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['paperback'])
+        item['product_dimensions'] = StringFilter(ValueFilter()).filter(item['product_dimensions'])
+        item['publisher'] = StringFilter(ValueFilter()).filter(item['publisher'])
+        item['publishing_year'] = YearFilter(IntFilter(WhitespaceFilter(StringFilter(ValueFilter())))).filter(item['publishing_year'])
+        item['isbn'] = IsbnFilter(StringFilter(ValueFilter()).filter(item['isbn']))
+        item['weight'] = IntFilter(WhitespaceFilter(StringFilter(ValueFilter()))).filter(item['weight'])
 
-        item['price'] = price_filter.filter(item['price'])
+        spider.logger.critical(item)
+
+        ################################################################################################################
+        ################################################################################################################
+        ################################################################################################################
 
         return item
 

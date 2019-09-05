@@ -74,7 +74,7 @@ ITEM_PIPELINES = {
     'pipelines.filter_items_pipeline.FilterItemsPipeline': 1,
     'scrapy.pipelines.images.ImagesPipeline': 2,
     'pipelines.filter_values_pipeline.FilterValuesPipeline': 3,
-    'pipelines.save_items_pipeline.SaveItemsPipeline': 4,
+    # 'pipelines.save_items_pipeline.SaveItemsPipeline': 4,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

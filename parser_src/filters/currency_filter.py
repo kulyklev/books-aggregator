@@ -3,12 +3,14 @@ from filters.filter_decorator import FilterDecorator
 
 class CurrencyFilter(FilterDecorator):
 
-    def filter(self, value):
-        if value == "грн":
+    def filter(self, value) -> str:
+        filtered_value = self._valueFilter.filter(value)
+
+        if filtered_value == "грн":
             return "UAH"
-        elif value == "UAH":
-            return value
+        elif filtered_value == "UAH":
+            return filtered_value
         else:
             # TODO Add logging warning
-            # spider.logger.warning("Unknown currency: %s" % value)
+            # spider.logger.warning("Unknown currency: %s" % filtered_value)
             pass

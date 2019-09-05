@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
+from filters.filter import Filter
 
 
-class ValueFilter(ABC):
+class ValueFilter(Filter):
 
-    @abstractmethod
     def filter(self, value):
-        pass
+        return value
