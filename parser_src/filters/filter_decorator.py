@@ -9,6 +9,13 @@ class FilterDecorator(Filter, ABC):
     def __init__(self, value_filter: Filter) -> None:
         self._valueFilter = value_filter
 
+    @property
+    def value_filter(self) -> Filter:
+        return self._valueFilter
+
+    def filter(self, value):
+        return self._valueFilter.filter(value)
+
     # def get_value_filter(self):
     #     return self._valueFilter
     #
