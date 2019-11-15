@@ -1,6 +1,15 @@
-FROM php:7.3.11-fpm
+FROM php:7.3.11-fpm as base
 
 RUN docker-php-ext-install pdo_mysql && \
     docker-php-ext-install bcmath sockets
 
+
+FROM base as dev
+RUN apt-get update && apt-get install -y wget git unzip \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 WORKDIR /var/www/html/
+
+
+FROM base as prod
+COPY ./../../src /var/www/html/
