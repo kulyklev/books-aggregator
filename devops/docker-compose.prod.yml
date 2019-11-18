@@ -1,0 +1,74 @@
+#version: '3.7'
+#
+#services:
+#  php:
+#    build:
+#      context: ./php
+#      dockerfile: Dockerfile
+#    image: books-parsers-php
+#    depends_on:
+#      - mysql
+#    volumes:
+#      - ./../:/var/www/html
+#
+#  scrape_worker:
+#    build:
+#      context: ./scrape_worker
+#      dockerfile: Dockerfile
+#    image: scrape-worker
+#    depends_on:
+#      - rabbitmq
+#    volumes:
+#      - ./../:/var/www/code
+#
+#  save_worker:
+#    build:
+#      context: ./save_worker
+#      dockerfile: Dockerfile
+#    image: save-worker
+#    depends_on:
+#      - rabbitmq
+#      - mysql
+#    volumes:
+#      - ./../:/var/www/code
+#
+#  nginx:
+#    build:
+#      context: ./nginx
+#      dockerfile: Dockerfile
+#    image: books-parsers-nginx
+#    depends_on:
+#      - php
+#    ports:
+#      - 80:80
+#    volumes:
+#      - ./../:/var/www/code
+#      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+#
+#  mysql:
+#    build:
+#      context: ./mysql
+#      dockerfile: Dockerfile
+#    image: books-parsers-mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - 3306:3306
+#    volumes:
+#      - ./mysql/volumes:/var/lib/mysql
+#    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+#
+#  rabbitmq:
+#    build:
+#      context: ./rabbitmq
+#      dockerfile: Dockerfile
+#    image: books-parsers-rabbitmq
+#    environment:
+#      RABBITMQ_HIPE_COMPILE: 1
+#      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+#      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+#    ports:
+#      - 8080:15672
