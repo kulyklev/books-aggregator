@@ -11,7 +11,6 @@ services:
       - XDEBUG_CONFIG=remote_host=${DEBUG_REMOTE_HOST} remote_port=${DEBUG_REMOTE_PORT} idekey=${DEBUG_IDEKEY}
     volumes:
       - ./../src:/var/www/html
-#      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
 
   scrape_worker:
     build:
