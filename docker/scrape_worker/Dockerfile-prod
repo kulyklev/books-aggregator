@@ -20,9 +20,8 @@ RUN apk update && \
     zlib-dev \
     python3
 
-#RUN pip3 install --upgrade pip && \
-#    pip3 install pipenv && \
-#    pipenv install --dev --deploy --ignore-pipfile --python 3.7
+RUN pip3 install pipenv && \
+    pipenv install --system --deploy --ignore-pipfile --python 3.7
 
 # Installing Scrapy
 RUN pip3 install --upgrade pip && \

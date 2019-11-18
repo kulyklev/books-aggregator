@@ -42,7 +42,10 @@ class BookItemSaver
         }
     }
 
-    protected function processBookItem($decodedJsonData)
+    /**
+     * @param $decodedJsonData
+     */
+    protected function processBookItem($decodedJsonData): void
     {
         if (Book::where('isbn', $decodedJsonData->isbn)->exists()) {
             $this->insertMissingValuesIntoBook($decodedJsonData);
@@ -56,17 +59,32 @@ class BookItemSaver
      */
     protected function saveNewBook($decodedJsonData): void
     {
-        // TODO Refactor
         if ($decodedJsonData->publisher == null) {
-            $book = $this->saveBook($decodedJsonData);
-            $newOffer = $this->saveOffer($decodedJsonData, $book);
-            $this->savePrice($decodedJsonData, $newOffer);
+            $this->saveNewBookWithoutPublisher($decodedJsonData);
         } else {
-            $publisher = $this->savePublisher($decodedJsonData->publisher);
-            $book = $this->saveBook($decodedJsonData, $publisher->id);
-            $newOffer = $this->saveOffer($decodedJsonData, $book);
-            $this->savePrice($decodedJsonData, $newOffer);
+            $this->saveNewBookWithPublisher($decodedJsonData);
         }
+    }
+
+    /**
+     * @param $decodedJsonData
+     */
+    protected function saveNewBookWithoutPublisher($decodedJsonData): void
+    {
+        $book = $this->saveBook($decodedJsonData);
+        $newOffer = $this->saveOffer($decodedJsonData, $book->id);
+        $this->savePrice($decodedJsonData, $newOffer->id);
+    }
+
+    /**
+     * @param $decodedJsonData
+     */
+    protected function saveNewBookWithPublisher($decodedJsonData): void
+    {
+        $publisher = $this->savePublisher($decodedJsonData->publisher);
+        $book = $this->saveBook($decodedJsonData, $publisher->id);
+        $newOffer = $this->saveOffer($decodedJsonData, $book->id);
+        $this->savePrice($decodedJsonData, $newOffer->id);
     }
 
     /**
@@ -88,6 +106,11 @@ class BookItemSaver
         }
     }
 
+    /**
+     * @param $decodedJsonData
+     * @param null $publisherId
+     * @return Book
+     */
     protected function saveBook($decodedJsonData, $publisherId = null): Book
     {
         $book = new Book();
@@ -109,17 +132,17 @@ class BookItemSaver
 
     /**
      * @param $decodedJsonData
-     * @param Book $book
+     * @param Book $bookId
      * @return Offer
      */
-    protected function saveOffer($decodedJsonData, Book $book): Offer
+    protected function saveOffer($decodedJsonData, int $bookId): Offer
     {
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
-        $offer = Offer::where('book_id', $book->id)->where('dealer_id', $dealer->id)->first();
+        $offer = Offer::where('book_id', $bookId)->where('dealer_id', $dealer->id)->first();
 
         if ($offer === null) {
             $newOffer = new Offer();
-            $newOffer->book_id = $book->id;
+            $newOffer->book_id = $bookId;
             $newOffer->dealer_id = $dealer->id;
             $newOffer->link = $decodedJsonData->link;
             if (empty($decodedJsonData->image[0])) {
@@ -136,17 +159,21 @@ class BookItemSaver
 
     /**
      * @param $decodedJsonData
-     * @param Offer $newOffer
+     * @param int $offerId
      */
-    protected function savePrice($decodedJsonData, Offer $newOffer): void
+    protected function savePrice($decodedJsonData, int $offerId): void
     {
         $newPrice = new Price();
-        $newPrice->offer_id = $newOffer->id;
+        $newPrice->offer_id = $offerId;
         $newPrice->price = $decodedJsonData->price;
         $newPrice->currency = $decodedJsonData->currency;
         $newPrice->save();
     }
 
+    /**
+     * @param $decodedJsonData
+     * TODO May be replace this method to dedicated class
+     */
     protected function insertMissingValuesIntoBook($decodedJsonData): void
     {
         $book = Book::where('isbn', $decodedJsonData->isbn)->first();
@@ -180,17 +207,18 @@ class BookItemSaver
         }
         $book->save();
 
-        $offer = $this->saveOffer($decodedJsonData, $book);
+        $offer = $this->saveOffer($decodedJsonData, $book->id);
         $this->saveReparsedPrice($decodedJsonData);
     }
 
+    // TODO May be should be deleted
     protected function saveReparsedPrice($decodedJsonData)
     {
         $book = Book::where('isbn', $decodedJsonData->isbn)->first();
         $dealer = Dealer::where('site_name', $decodedJsonData->dealer_name)->first();
         $offer = $book->offers()->where('dealer_id', $dealer->id)->first();
 
-        $this->savePrice($decodedJsonData, $offer);
+        $this->savePrice($decodedJsonData, $offer->id);
     }
 
 }
