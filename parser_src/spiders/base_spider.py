@@ -41,6 +41,8 @@ class BaseSpider(scrapy.Spider, ABC):
         elif self.start_url is not None:
             return [scrapy.FormRequest(self.start_url,
                                        callback=self.generate_requests)]
+        else:
+            self.logger.error('Book url and start url are empty')
 
     @abstractmethod
     def reparse_book(self, response):

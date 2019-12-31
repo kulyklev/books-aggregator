@@ -1,0 +1,30 @@
+#version: '3.7'
+#
+#
+#services:
+#  php:
+#    image: books-parsers-php
+##    networks:
+##      - frontend
+##      - backend
+#    deploy:
+#      replicas: 1
+#      update_config:
+#        parallelism: 2
+#        delay: 60s
+#    restart_policy:
+#      condition: on-failure
+#
+#  scrape_worker:
+#    image: books-parsers-php
+##    networks:
+##      - backend
+#    deploy:
+#      replicas: 1
+#      update_config:
+#        parallelism: 2
+#        delay: 60s
+#      restart_policy:
+#        condition: on-failure
+#
+#  save_worker:

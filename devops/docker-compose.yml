@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  php:
+    image: books-parsers-php
+    depends_on:
+      - mysql
+
+  scrape_worker:
+    image: scrape-worker
+    depends_on:
+      - rabbitmq
+
+  save_worker:
+    image: save-worker
+    depends_on:
+      - rabbitmq
+      - mysql
+
+  nginx:
+    image: books-parsers-nginx
+    depends_on:
+      - php
+
+  mysql:
+    image: books-parsers-mysql
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+
+  rabbitmq:
+    image: books-parsers-rabbitmq
